@@ -1,7 +1,7 @@
 const Sheet = {
 
 
-    // دریافت همه مشتری‌ها
+    // دریافت مشتری‌ها
     getCustomers() {
 
         return api(
@@ -13,7 +13,7 @@ const Sheet = {
 
 
 
-    // ثبت مشتری جدید
+    // ثبت مشتری
     addCustomer(customerName, mochiPrice) {
 
 
@@ -79,6 +79,54 @@ const Sheet = {
                 row: rowNumber
 
             }
+        );
+
+
+    },
+
+
+
+
+    // دریافت سفارش‌ها
+    getOrders() {
+
+        return api(
+            "read",
+            "Orders"
+        );
+
+    },
+
+
+
+
+    // ثبت سفارش
+    addOrder(customerId, quantity, price) {
+
+
+        const total =
+        Number(quantity) * Number(price);
+
+
+
+        return api(
+            "write",
+            "Orders",
+            [
+
+                crypto.randomUUID(),
+
+                customerId,
+
+                Number(quantity),
+
+                Number(price),
+
+                total,
+
+                new Date().toLocaleString("fa-IR")
+
+            ]
         );
 
 
