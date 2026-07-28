@@ -1,274 +1,359 @@
 document.addEventListener("DOMContentLoaded", () => {
 
 
-    const pageContent =
-    document.getElementById("pageContent");
+const pageContent = document.getElementById("pageContent");
 
 
 
-    function showCustomersPage(){
+// ---------------- مشتری‌ها ----------------
 
 
-        pageContent.innerHTML = `
+function showCustomersPage(){
 
-        <h2>👥 مشتری‌ها</h2>
 
+pageContent.innerHTML = `
 
-        <div class="card">
+<h2>👥 مشتری‌ها</h2>
 
-            <input id="customerName"
-            placeholder="نام مشتری">
 
+<div class="card">
 
-            <input id="mochiPrice"
-            type="number"
-            placeholder="قیمت هر موچی">
+<input id="customerName" placeholder="نام مشتری">
 
+<input id="mochiPrice" type="number" placeholder="قیمت هر موچی">
 
-            <button id="saveCustomer">
-            ذخیره مشتری
-            </button>
+<button id="saveCustomer">
+ذخیره مشتری
+</button>
 
-        </div>
+</div>
 
 
-        <div id="customersList"></div>
+<div id="customersList"></div>
 
-        `;
+`;
 
 
 
-        document
-        .getElementById("saveCustomer")
-        .onclick = saveCustomer;
+document.getElementById("saveCustomer")
+.onclick = saveCustomer;
 
 
+loadCustomers();
 
-        loadCustomers();
 
+}
 
-    }
 
 
 
+async function saveCustomer(){
 
-    async function saveCustomer(){
 
+const name =
+document.getElementById("customerName").value;
 
-        const name =
-        document.getElementById("customerName").value;
 
+const price =
+document.getElementById("mochiPrice").value;
 
-        const price =
-        document.getElementById("mochiPrice").value;
 
 
+if(!name || !price){
 
-        if(!name || !price){
+alert("اطلاعات را کامل کنید");
 
-            alert("اطلاعات را کامل کنید");
+return;
 
-            return;
+}
 
-        }
 
 
+const result =
+await Sheet.addCustomer(
+name,
+price
+);
 
-        const result =
-        await Sheet.addCustomer(
-            name,
-            price
-        );
 
 
+if(result.success){
 
-        if(result.success){
+alert("مشتری ثبت شد ✅");
 
-            alert("ثبت شد ✅");
+loadCustomers();
 
-            loadCustomers();
+}
 
-        }
 
 
+}
 
-    }
 
 
 
 
+async function loadCustomers(){
 
-    async function loadCustomers(){
 
+const box =
+document.getElementById("customersList");
 
-        const box =
-        document.getElementById("customersList");
 
+const result =
+await Sheet.getCustomers();
 
-        const result =
-        await Sheet.getCustomers();
 
 
+if(!result.success)
+return;
 
-        if(!result.success){
 
-            box.innerHTML="خطا";
 
-            return;
+box.innerHTML="";
 
-        }
 
 
+result.data.slice(1).forEach((customer,index)=>{
 
-        box.innerHTML="";
 
+let row=index+2;
 
 
-        result.data
-        .slice(1)
-        .forEach((customer,index)=>{
 
+box.innerHTML += `
 
-            const row =
-            index + 2;
+<div class="card">
 
 
+<h3>${customer[1]}</h3>
 
-            box.innerHTML += `
 
+<p>
+قیمت موچی:
+${customer[3]}
+</p>
 
-            <div class="card">
 
+<button onclick="editCustomer(${row},'${customer[1]}','${customer[3]}')">
+✏️ ویرایش
+</button>
 
-            <h3>
-            ${customer[1]}
-            </h3>
 
+<button onclick="removeCustomer(${row})">
+🗑 حذف
+</button>
 
-            <p>
-            قیمت موچی:
-            ${customer[3]}
-            </p>
 
+</div>
 
-            <button onclick="editCustomer(${row}, '${customer[1]}', '${customer[3]}')">
-            ✏️ ویرایش
-            </button>
+`;
 
 
+});
 
-            <button onclick="removeCustomer(${row})">
-            🗑 حذف
-            </button>
 
+}
 
-            </div>
 
 
-            `;
 
 
-        });
+window.editCustomer =
+async function(row,name,price){
 
 
-    }
+let newName =
+prompt("نام جدید",name);
 
 
+let newPrice =
+prompt("قیمت جدید",price);
 
 
 
+if(!newName || !newPrice)
+return;
 
 
-    window.editCustomer =
-    async function(row,name,price){
 
+let result =
+await Sheet.updateCustomer(
+row,
+newName,
+newPrice
+);
 
-        const newName =
-        prompt(
-        "نام جدید:",
-        name
-        );
 
 
-        const newPrice =
-        prompt(
-        "قیمت جدید:",
-        price
-        );
+if(result.success){
 
+alert("ویرایش شد ✅");
 
+loadCustomers();
 
-        if(!newName || !newPrice)
-        return;
+}
 
 
+};
 
-        const result =
-        await Sheet.updateCustomer(
-            row,
-            newName,
-            newPrice
-        );
 
 
 
-        if(result.success){
 
-            alert("ویرایش شد ✅");
+window.removeCustomer =
+async function(row){
 
-            loadCustomers();
 
-        }
+if(!confirm("حذف شود؟"))
+return;
 
 
-    };
 
+let result =
+await Sheet.deleteCustomer(row);
 
 
 
+if(result.success){
 
+alert("حذف شد");
 
+loadCustomers();
 
-    window.removeCustomer =
-    async function(row){
+}
 
 
-        if(!confirm("حذف شود؟"))
-        return;
+};
 
 
 
-        const result =
-        await Sheet.deleteCustomer(row);
 
 
+// ---------------- سفارش جدید ----------------
 
-        if(result.success){
 
-            alert("حذف شد");
 
-            loadCustomers();
+function showOrdersPage(){
 
-        }
 
+pageContent.innerHTML = `
 
-    };
 
+<h2>🍡 سفارش جدید</h2>
 
 
+<div class="card">
 
 
-    const menu =
-    document.getElementById("menuCustomers");
+<input id="orderCustomer"
+placeholder="کد مشتری">
 
 
+<input id="orderQuantity"
+type="number"
+placeholder="تعداد موچی">
 
-    if(menu){
 
-        menu.onclick =
-        showCustomersPage;
+<input id="orderPrice"
+type="number"
+placeholder="قیمت هر موچی">
 
-    }
+
+<button id="saveOrder">
+ثبت سفارش
+</button>
+
+
+</div>
+
+
+`;
+
+
+
+document.getElementById("saveOrder")
+.onclick = saveOrder;
+
+
+}
+
+
+
+
+async function saveOrder(){
+
+
+let customerId =
+document.getElementById("orderCustomer").value;
+
+
+let quantity =
+document.getElementById("orderQuantity").value;
+
+
+let price =
+document.getElementById("orderPrice").value;
+
+
+
+if(!customerId || !quantity || !price){
+
+alert("اطلاعات سفارش کامل نیست");
+
+return;
+
+}
+
+
+
+let result =
+await Sheet.addOrder(
+customerId,
+quantity,
+price
+);
+
+
+
+if(result.success){
+
+alert("سفارش ثبت شد ✅");
+
+}
+
+
+}
+
+
+
+
+// منوها
+
+
+const menuCustomers =
+document.getElementById("menuCustomers");
+
+
+if(menuCustomers){
+
+menuCustomers.onclick =
+showCustomersPage;
+
+}
+
+
+
+const menuOrders =
+document.getElementById("menuOrders");
+
+
+if(menuOrders){
+
+menuOrders.onclick =
+showOrdersPage;
+
+}
 
 
 
