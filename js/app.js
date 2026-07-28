@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // ورود مدیر
     if (adminBtn) {
         adminBtn.addEventListener("click", () => {
-            window.location.href = "admin.html";
+            window.location.href = "pages/admin.html";
         });
     }
 
