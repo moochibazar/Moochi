@@ -1,39 +1,21 @@
-async function apiRequest(action, data = {}) {
+async function api(action, sheet, row = []) {
 
-    try {
+    const res = await fetch(CONFIG.WEB_APP_URL, {
 
-        const response = await fetch(CONFIG.WEB_APP_URL, {
+        method: "POST",
 
-            method: "POST",
+        body: JSON.stringify({
 
-            body: JSON.stringify({
+            action,
 
-                action: action,
+            sheet,
 
-                ...data
+            row
 
-            })
+        })
 
-        });
+    });
 
-
-        const result = await response.json();
-
-        return result;
-
-
-    } catch (error) {
-
-        console.error("API Error:", error);
-
-        return {
-
-            success:false,
-
-            message:error.message
-
-        };
-
-    }
+    return await res.json();
 
 }
