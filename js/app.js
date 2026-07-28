@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // ورود مشتری
     if (customerBtn) {
         customerBtn.addEventListener("click", () => {
-            window.location.href = "customer.html";
+            window.location.href = "pages/customer.html";
         });
     }
 
