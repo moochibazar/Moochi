@@ -1,136 +1,124 @@
 const Sheet = {
 
 
-    // دریافت مشتری‌ها
-    getCustomers() {
+getCustomers(){
 
-        return api(
-            "read",
-            "Customers"
-        );
+return api(
+"read",
+"Customers"
+);
 
-    },
-
-
-
-    // ثبت مشتری
-    addCustomer(customerName, mochiPrice) {
-
-
-        return api(
-            "write",
-            "Customers",
-            [
-
-                crypto.randomUUID(),
-
-                customerName,
-
-                "MC" + Date.now(),
-
-                Number(mochiPrice),
-
-                new Date().toLocaleString("fa-IR")
-
-            ]
-        );
-
-
-    },
+},
 
 
 
-    // ویرایش مشتری
-    updateCustomer(rowNumber, customerName, mochiPrice) {
+addCustomer(customerName, mochiPrice){
 
+return api(
+"write",
+"Customers",
+[
 
-        return api(
-            "update",
-            "Customers",
-            {
+crypto.randomUUID(),
 
-                row: rowNumber,
+customerName,
 
-                data: [
+"MC"+Date.now(),
 
-                    customerName,
+Number(mochiPrice),
 
-                    Number(mochiPrice)
+new Date().toLocaleString("fa-IR")
 
-                ]
+]
+);
 
-            }
-        );
-
-
-    },
+},
 
 
 
-    // حذف مشتری
-    deleteCustomer(rowNumber) {
+updateCustomer(rowNumber, customerName, mochiPrice){
+
+return api(
+"update",
+"Customers",
+{
+
+row:rowNumber,
+
+data:[
+
+customerName,
+
+Number(mochiPrice)
+
+]
+
+}
+);
+
+},
 
 
-        return api(
-            "delete",
-            "Customers",
-            {
 
-                row: rowNumber
+deleteCustomer(rowNumber){
 
-            }
-        );
+return api(
+"delete",
+"Customers",
+{
 
+row:rowNumber
 
-    },
+}
+);
+
+},
 
 
 
 
-    // دریافت سفارش‌ها
-    getOrders() {
+getOrders(){
 
-        return api(
-            "read",
-            "Orders"
-        );
+return api(
+"read",
+"Orders"
+);
 
-    },
-
+},
 
 
 
-    // ثبت سفارش
-    addOrder(customerId, quantity, price) {
+
+addOrder(customerName, quantity, price){
 
 
-        const total =
-        Number(quantity) * Number(price);
+let total =
+Number(quantity) * Number(price);
 
 
 
-        return api(
-            "write",
-            "Orders",
-            [
+return api(
+"write",
+"Orders",
+[
 
-                crypto.randomUUID(),
+crypto.randomUUID(),
 
-                customerId,
+customerName,
 
-                Number(quantity),
+Number(quantity),
 
-                Number(price),
+Number(price),
 
-                total,
+total,
 
-                new Date().toLocaleString("fa-IR")
+new Date().toLocaleString("fa-IR")
 
-            ]
-        );
+]
+);
 
 
-    }
+}
 
 
 
