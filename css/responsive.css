@@ -1,1 +1,120 @@
+@media (max-width: 900px) {
 
+
+    .dashboard {
+
+        display:block;
+
+    }
+
+
+
+    .sidebar {
+
+        width:100%;
+
+        height:auto;
+
+        padding:15px;
+
+        display:flex;
+
+        flex-wrap:wrap;
+
+        gap:10px;
+
+        justify-content:center;
+
+    }
+
+
+
+    .sidebar h2 {
+
+        width:100%;
+
+        margin-bottom:15px;
+
+    }
+
+
+
+    .sidebar button {
+
+        width:auto;
+
+        flex:1;
+
+        min-width:140px;
+
+        text-align:center;
+
+        margin:0;
+
+    }
+
+
+
+    .content {
+
+        padding:15px;
+
+    }
+
+
+
+    .content h1 {
+
+        font-size:22px;
+
+        text-align:center;
+
+    }
+
+
+
+    .card {
+
+        padding:15px;
+
+        border-radius:16px;
+
+    }
+
+
+
+    input,
+    select,
+    button {
+
+        font-size:16px;
+
+    }
+
+
+}
+
+
+
+@media (max-width:500px){
+
+
+    .sidebar button {
+
+        width:100%;
+
+        flex:none;
+
+    }
+
+
+
+    h2 {
+
+        font-size:20px;
+
+    }
+
+
+
+}
