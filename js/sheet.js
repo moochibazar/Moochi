@@ -1,6 +1,19 @@
 const Sheet = {
 
 
+    // دریافت همه مشتری‌ها
+    getCustomers() {
+
+        return api(
+            "read",
+            "Customers"
+        );
+
+    },
+
+
+
+    // ثبت مشتری جدید
     addCustomer(customerName, mochiPrice) {
 
 
@@ -20,7 +33,6 @@ const Sheet = {
                 new Date().toLocaleString("fa-IR")
 
             ]
-
         );
 
 
@@ -28,16 +40,50 @@ const Sheet = {
 
 
 
-    getCustomers() {
+    // ویرایش مشتری
+    updateCustomer(rowNumber, customerName, mochiPrice) {
 
 
         return api(
-            "read",
-            "Customers"
+            "update",
+            "Customers",
+            {
+
+                row: rowNumber,
+
+                data: [
+
+                    customerName,
+
+                    Number(mochiPrice)
+
+                ]
+
+            }
+        );
+
+
+    },
+
+
+
+    // حذف مشتری
+    deleteCustomer(rowNumber) {
+
+
+        return api(
+            "delete",
+            "Customers",
+            {
+
+                row: rowNumber
+
+            }
         );
 
 
     }
+
 
 
 };
