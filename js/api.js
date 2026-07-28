@@ -1,24 +1,39 @@
 async function apiRequest(action, data = {}) {
 
-    const response = await fetch(CONFIG.WEB_APP_URL, {
+    try {
 
-        method: "POST",
+        const response = await fetch(CONFIG.WEB_APP_URL, {
 
-        headers: {
-            "Content-Type": "application/json"
-        },
+            method: "POST",
 
-        body: JSON.stringify({
+            body: JSON.stringify({
 
-            action,
+                action: action,
 
-            ...data
+                ...data
 
-        })
+            })
 
-    });
+        });
 
 
-    return await response.json();
+        const result = await response.json();
+
+        return result;
+
+
+    } catch (error) {
+
+        console.error("API Error:", error);
+
+        return {
+
+            success:false,
+
+            message:error.message
+
+        };
+
+    }
 
 }
