@@ -1,54 +1,79 @@
-.dashboard{
+.dashboard {
 
     display:flex;
+
     min-height:100vh;
 
 }
 
 
-.sidebar{
+
+/* منوی کناری */
+
+.sidebar {
 
     width:260px;
 
-    background:#111827;
-
-    color:white;
+    background:white;
 
     padding:25px;
 
+    box-shadow:
+    var(--shadow);
+
+    position:sticky;
+
+    top:0;
+
+    height:100vh;
+
 }
 
 
-.sidebar h2{
 
-    margin-bottom:30px;
+.sidebar h2 {
 
     text-align:center;
 
+    margin-bottom:35px;
+
+    color:var(--primary);
+
 }
 
 
-.sidebar button{
 
-    background:transparent;
+.sidebar button {
 
-    color:white;
+    width:100%;
+
+    margin-bottom:12px;
 
     text-align:right;
 
-    margin-bottom:10px;
+    background:#fff3ee;
+
+    color:var(--text);
 
 }
 
 
-.sidebar button:hover{
 
-    background:rgba(255,255,255,.15);
+.sidebar button:hover {
+
+    background:var(--primary);
+
+    color:white;
 
 }
 
 
-.content{
+
+
+
+/* بخش اصلی */
+
+.content {
 
     flex:1;
 
@@ -57,23 +82,102 @@
 }
 
 
-.content h1{
 
-    margin-bottom:25px;
+.content > h1 {
+
+    background:white;
+
+    padding:20px;
+
+    border-radius:20px;
+
+    box-shadow:var(--shadow);
+
+    margin-top:0;
 
 }
 
 
-.card{
 
-    background:white;
 
-    border-radius:20px;
 
-    padding:25px;
+#pageContent {
 
-    box-shadow:var(--shadow);
+    margin-top:25px;
 
-    margin-top:20px;
+}
+
+
+
+
+
+/* کارت‌های اطلاعات */
+
+.card {
+
+    animation:
+    fade .3s ease;
+
+}
+
+
+
+
+
+@keyframes fade {
+
+    from {
+
+        opacity:0;
+
+        transform:translateY(10px);
+
+    }
+
+
+    to {
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+
+
+
+/* موبایل */
+
+@media(max-width:800px){
+
+
+.dashboard {
+
+    display:block;
+
+}
+
+
+
+.sidebar {
+
+    width:100%;
+
+    height:auto;
+
+    position:relative;
+
+}
+
+
+
+.content {
+
+    padding:15px;
+
+}
+
 
 }
