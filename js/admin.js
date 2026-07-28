@@ -1,20 +1,16 @@
 document.addEventListener("DOMContentLoaded", () => {
 
 
-const pageContent = document.getElementById("pageContent");
+const pageContent =
+document.getElementById("pageContent");
 
-
-
-// ---------------- مشتری‌ها ----------------
 
 
 function showCustomersPage(){
 
-
 pageContent.innerHTML = `
 
 <h2>👥 مشتری‌ها</h2>
-
 
 <div class="card">
 
@@ -28,19 +24,17 @@ pageContent.innerHTML = `
 
 </div>
 
-
 <div id="customersList"></div>
 
 `;
 
 
 
-document.getElementById("saveCustomer")
-.onclick = saveCustomer;
+document.getElementById("saveCustomer").onclick =
+saveCustomer;
 
 
 loadCustomers();
-
 
 }
 
@@ -49,19 +43,18 @@ loadCustomers();
 
 async function saveCustomer(){
 
-
-const name =
+let name =
 document.getElementById("customerName").value;
 
 
-const price =
+let price =
 document.getElementById("mochiPrice").value;
 
 
 
 if(!name || !price){
 
-alert("اطلاعات را کامل کنید");
+alert("اطلاعات کامل نیست");
 
 return;
 
@@ -69,7 +62,7 @@ return;
 
 
 
-const result =
+let result =
 await Sheet.addCustomer(
 name,
 price
@@ -79,16 +72,13 @@ price
 
 if(result.success){
 
-alert("مشتری ثبت شد ✅");
+alert("ثبت شد ✅");
 
 loadCustomers();
 
 }
 
-
-
 }
-
 
 
 
@@ -96,11 +86,11 @@ loadCustomers();
 async function loadCustomers(){
 
 
-const box =
+let box =
 document.getElementById("customersList");
 
 
-const result =
+let result =
 await Sheet.getCustomers();
 
 
@@ -120,14 +110,11 @@ result.data.slice(1).forEach((customer,index)=>{
 let row=index+2;
 
 
-
 box.innerHTML += `
 
 <div class="card">
 
-
 <h3>${customer[1]}</h3>
-
 
 <p>
 قیمت موچی:
@@ -149,12 +136,10 @@ ${customer[3]}
 
 `;
 
-
 });
 
 
 }
-
 
 
 
@@ -188,15 +173,13 @@ newPrice
 
 if(result.success){
 
-alert("ویرایش شد ✅");
+alert("ویرایش شد");
 
 loadCustomers();
 
 }
 
-
 };
-
 
 
 
@@ -207,7 +190,6 @@ async function(row){
 
 if(!confirm("حذف شود؟"))
 return;
-
 
 
 let result =
@@ -223,18 +205,48 @@ loadCustomers();
 
 }
 
-
 };
 
 
 
 
 
-// ---------------- سفارش جدید ----------------
+
+
+// -------- سفارش جدید --------
 
 
 
-function showOrdersPage(){
+async function showOrdersPage(){
+
+
+let customers =
+await Sheet.getCustomers();
+
+
+
+let options = "";
+
+
+
+customers.data
+.slice(1)
+.forEach(customer=>{
+
+
+options += `
+
+<option value="${customer[1]}|${customer[3]}">
+
+${customer[1]}
+
+</option>
+
+`;
+
+});
+
+
 
 
 pageContent.innerHTML = `
@@ -246,8 +258,16 @@ pageContent.innerHTML = `
 <div class="card">
 
 
-<input id="orderCustomer"
-placeholder="کد مشتری">
+<select id="orderCustomer">
+
+<option>
+انتخاب مشتری
+</option>
+
+${options}
+
+</select>
+
 
 
 <input id="orderQuantity"
@@ -255,14 +275,17 @@ type="number"
 placeholder="تعداد موچی">
 
 
-<input id="orderPrice"
-type="number"
-placeholder="قیمت هر موچی">
+
+<div id="orderTotal">
+مبلغ کل: 0
+</div>
+
 
 
 <button id="saveOrder">
 ثبت سفارش
 </button>
+
 
 
 </div>
@@ -272,8 +295,50 @@ placeholder="قیمت هر موچی">
 
 
 
+document.getElementById("orderQuantity")
+.oninput = calculateTotal;
+
+
+
 document.getElementById("saveOrder")
 .onclick = saveOrder;
+
+
+
+}
+
+
+
+function calculateTotal(){
+
+
+let customer =
+document.getElementById("orderCustomer").value;
+
+
+let quantity =
+document.getElementById("orderQuantity").value;
+
+
+
+if(!customer)
+return;
+
+
+
+let price =
+customer.split("|")[1];
+
+
+
+let total =
+Number(quantity) * Number(price);
+
+
+
+document.getElementById("orderTotal")
+.innerHTML =
+"مبلغ کل: " + total;
 
 
 }
@@ -284,7 +349,7 @@ document.getElementById("saveOrder")
 async function saveOrder(){
 
 
-let customerId =
+let customer =
 document.getElementById("orderCustomer").value;
 
 
@@ -292,14 +357,10 @@ let quantity =
 document.getElementById("orderQuantity").value;
 
 
-let price =
-document.getElementById("orderPrice").value;
 
+if(!customer || !quantity){
 
-
-if(!customerId || !quantity || !price){
-
-alert("اطلاعات سفارش کامل نیست");
+alert("اطلاعات کامل نیست");
 
 return;
 
@@ -307,9 +368,22 @@ return;
 
 
 
+let data =
+customer.split("|");
+
+
+let name =
+data[0];
+
+
+let price =
+data[1];
+
+
+
 let result =
 await Sheet.addOrder(
-customerId,
+name,
 quantity,
 price
 );
@@ -322,7 +396,6 @@ alert("سفارش ثبت شد ✅");
 
 }
 
-
 }
 
 
@@ -331,29 +404,15 @@ alert("سفارش ثبت شد ✅");
 // منوها
 
 
-const menuCustomers =
-document.getElementById("menuCustomers");
-
-
-if(menuCustomers){
-
-menuCustomers.onclick =
+document.getElementById("menuCustomers")
+.onclick =
 showCustomersPage;
 
-}
 
 
-
-const menuOrders =
-document.getElementById("menuOrders");
-
-
-if(menuOrders){
-
-menuOrders.onclick =
+document.getElementById("menuOrders")
+.onclick =
 showOrdersPage;
-
-}
 
 
 
