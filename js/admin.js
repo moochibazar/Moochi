@@ -2,16 +2,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const pageContent = document.getElementById("pageContent");
 
+
     function showCustomersPage() {
 
         pageContent.innerHTML = `
+
             <h2>👥 مشتری‌ها</h2>
 
             <div class="card">
 
-                <input id="customerName" placeholder="نام مشتری">
+                <input 
+                id="customerName" 
+                placeholder="نام مشتری">
 
-                <input id="mochiPrice" type="number" placeholder="قیمت هر موچی">
+                <input 
+                id="mochiPrice" 
+                type="number" 
+                placeholder="قیمت هر موچی">
 
                 <button id="saveCustomer">
                     ذخیره مشتری
@@ -19,92 +26,160 @@ document.addEventListener("DOMContentLoaded", () => {
 
             </div>
 
+
             <div id="customersList"></div>
+
         `;
 
+
         document
-            .getElementById("saveCustomer")
-            .onclick = saveCustomer;
+        .getElementById("saveCustomer")
+        .onclick = saveCustomer;
+
 
         loadCustomers();
 
     }
 
+
+
     async function saveCustomer() {
 
+
         const customerName =
-            document.getElementById("customerName").value;
+        document.getElementById("customerName").value.trim();
+
 
         const mochiPrice =
-            document.getElementById("mochiPrice").value;
+        document.getElementById("mochiPrice").value;
 
-        if (!customerName || !mochiPrice) {
 
-            alert("همه اطلاعات را وارد کنید");
+
+        if(!customerName || !mochiPrice){
+
+            alert("نام و قیمت را وارد کنید");
 
             return;
 
         }
 
-        const result = await Sheet.addCustomer({
 
+
+        const result = await Sheet.addCustomer(
             customerName,
-
             mochiPrice
+        );
 
-        });
 
-        if (result.success) {
+
+        if(result.success){
 
             alert("مشتری ثبت شد ✅");
 
+            document.getElementById("customerName").value = "";
+
+            document.getElementById("mochiPrice").value = "";
+
+
             loadCustomers();
 
-        } else {
+        }
+        else{
 
-            alert(result.message);
+            alert(result.message || "خطا در ثبت");
 
         }
 
+
     }
 
-    async function loadCustomers() {
 
-        const result = await Sheet.getCustomers();
 
-        if (!result.success) return;
+
+
+    async function loadCustomers(){
+
 
         const box =
-            document.getElementById("customersList");
+        document.getElementById("customersList");
+
+
+        const result =
+        await Sheet.getCustomers();
+
+
+
+        if(!result.success){
+
+            box.innerHTML =
+            "خطا در دریافت اطلاعات";
+
+            return;
+
+        }
+
+
 
         box.innerHTML = "";
 
-        result.customers.forEach(customer => {
+
+
+        const rows = result.data;
+
+
+
+        rows.slice(1).forEach(customer => {
+
+
 
             box.innerHTML += `
 
-                <div class="card">
 
-                    <h3>${customer.customerName}</h3>
+            <div class="card">
 
-                    <p>کد:
-                    ${customer.customerCode}</p>
 
-                    <p>
-                    قیمت هر موچی:
-                    ${customer.mochiPrice}
-                    </p>
+                <h3>
+                ${customer[1]}
+                </h3>
 
-                </div>
+
+                <p>
+                کد مشتری:
+                ${customer[2]}
+                </p>
+
+
+                <p>
+                قیمت موچی:
+                ${customer[3]}
+                </p>
+
+
+            </div>
+
 
             `;
 
+
         });
+
 
     }
 
-    document
-        .getElementById("menuCustomers")
-        .onclick = showCustomersPage;
+
+
+
+
+    const menu =
+    document.getElementById("menuCustomers");
+
+
+    if(menu){
+
+        menu.onclick = showCustomersPage;
+
+    }
+
+
 
 });
