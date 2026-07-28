@@ -1,124 +1,127 @@
-.container{
-    width:100%;
-    min-height:100vh;
+.container {
+
+    max-width:1200px;
+
+    margin:auto;
+
+}
+
+
+
+.card h3 {
+
+    margin-top:0;
+
+    color:var(--primary);
+
+}
+
+
+
+.card p {
+
+    color:var(--muted);
+
+    font-size:14px;
+
+}
+
+
+
+button:active {
+
+    transform:scale(.97);
+
+}
+
+
+
+input::placeholder {
+
+    color:#b7a3a3;
+
+}
+
+
+
+select {
+
+    appearance:none;
+
+    cursor:pointer;
+
+}
+
+
+
+#customersList .card {
 
     display:flex;
-    justify-content:center;
-    align-items:center;
 
-    padding:25px;
-}
+    flex-direction:column;
 
-.login-card{
-
-    width:100%;
-    max-width:430px;
-
-    background:rgba(255,255,255,.75);
-
-    backdrop-filter:blur(18px);
-
-    border:1px solid rgba(255,255,255,.4);
-
-    border-radius:25px;
-
-    box-shadow:var(--shadow);
-
-    padding:35px;
-
-    text-align:center;
+    gap:10px;
 
 }
 
-.logo{
 
-    font-size:70px;
+
+#customersList button {
+
+    width:fit-content;
+
+}
+
+
+
+#orderTotal {
+
+    margin:15px 0;
+
+    padding:15px;
+
+    background:#fff3ee;
+
+    border-radius:14px;
+
+    font-size:18px;
+
+    font-weight:700;
+
+    color:var(--primary-dark);
+
+}
+
+
+
+h2 {
 
     margin-bottom:20px;
 
 }
 
-.login-card h1{
 
-    font-size:28px;
 
-    margin-bottom:8px;
+.content {
 
-}
-
-.login-card p{
-
-    color:var(--text2);
-
-    margin-bottom:35px;
+    animation:page .4s ease;
 
 }
 
-button{
 
-    width:100%;
 
-    height:55px;
+@keyframes page {
 
-    border-radius:15px;
+    from {
 
-    margin-top:15px;
+        opacity:0;
 
-    background:var(--primary);
+    }
 
-    color:white;
+    to {
 
-    font-size:17px;
+        opacity:1;
 
-    transition:.3s;
-
-}
-
-button:hover{
-
-    background:var(--primary-dark);
-
-    transform:translateY(-2px);
-
-}
-
-.version{
-
-    margin-top:30px;
-
-    color:var(--text2);
-
-    font-size:13px;
-
-}
-.card{
-
-background:white;
-
-padding:20px;
-
-margin-top:20px;
-
-border-radius:18px;
-
-box-shadow:var(--shadow);
-
-}
-
-input{
-
-width:100%;
-
-height:50px;
-
-padding:15px;
-
-margin-top:12px;
-
-border:1px solid var(--border);
-
-border-radius:12px;
-
-font-size:16px;
+    }
 
 }
