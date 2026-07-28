@@ -1,21 +1,93 @@
 :root{
-    --primary:#7C3AED;
-    --secondary:#A78BFA;
-    --success:#16A34A;
-    --danger:#DC2626;
-    --warning:#F59E0B;
 
-    --background:#F8FAFC;
-    --surface:#FFFFFF;
+/* رنگ‌ها */
 
-    --text:#1F2937;
-    --text-light:#6B7280;
+--primary:#8B5CF6;
+--primary-dark:#6D28D9;
 
-    --border:#E5E7EB;
+--success:#22C55E;
+--danger:#EF4444;
 
-    --radius:16px;
+--background:#F5F7FB;
+--card:#FFFFFF;
 
-    --shadow:0 10px 25px rgba(0,0,0,.08);
+--text:#1F2937;
+--text2:#6B7280;
 
-    --font:'Vazirmatn',sans-serif;
+--border:#E5E7EB;
+
+/* گردی */
+
+--radius:20px;
+
+/* سایه */
+
+--shadow:
+0 10px 30px rgba(0,0,0,.08);
+
+/* فونت */
+
+--font:'Vazirmatn',sans-serif;
+
+}
+
+/* تنظیمات کلی */
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+
+font-family:var(--font);
+
+background:linear-gradient(
+135deg,
+#EEF2FF,
+#F8FAFC,
+#F3E8FF
+);
+
+min-height:100vh;
+
+color:var(--text);
+
+}
+
+/* لینک */
+
+a{
+
+text-decoration:none;
+
+color:inherit;
+
+}
+
+/* دکمه */
+
+button{
+
+font-family:inherit;
+
+border:none;
+
+cursor:pointer;
+
+}
+
+/* ورودی */
+
+input,
+select,
+textarea{
+
+font-family:inherit;
+
+outline:none;
+
+border:none;
+
 }
