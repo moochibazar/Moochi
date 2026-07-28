@@ -1,27 +1,43 @@
 const Sheet = {
 
-    getCustomers() {
-
-        return api("read", "Customers");
-
-    },
 
     addCustomer(customerName, mochiPrice) {
 
-        return api("write", "Customers", [
 
-            crypto.randomUUID(),
+        return api(
+            "write",
+            "Customers",
+            [
 
-            customerName,
+                crypto.randomUUID(),
 
-            "MC" + Date.now(),
+                customerName,
 
-            Number(mochiPrice),
+                "MC" + Date.now(),
 
-            new Date().toISOString()
+                Number(mochiPrice),
 
-        ]);
+                new Date().toLocaleString("fa-IR")
+
+            ]
+
+        );
+
+
+    },
+
+
+
+    getCustomers() {
+
+
+        return api(
+            "read",
+            "Customers"
+        );
+
 
     }
+
 
 };
