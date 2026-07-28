@@ -1,0 +1,21 @@
+:root{
+    --primary:#7C3AED;
+    --secondary:#A78BFA;
+    --success:#16A34A;
+    --danger:#DC2626;
+    --warning:#F59E0B;
+
+    --background:#F8FAFC;
+    --surface:#FFFFFF;
+
+    --text:#1F2937;
+    --text-light:#6B7280;
+
+    --border:#E5E7EB;
+
+    --radius:16px;
+
+    --shadow:0 10px 25px rgba(0,0,0,.08);
+
+    --font:'Vazirmatn',sans-serif;
+}
