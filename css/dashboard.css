@@ -1,0 +1,79 @@
+.dashboard{
+
+    display:flex;
+    min-height:100vh;
+
+}
+
+
+.sidebar{
+
+    width:260px;
+
+    background:#111827;
+
+    color:white;
+
+    padding:25px;
+
+}
+
+
+.sidebar h2{
+
+    margin-bottom:30px;
+
+    text-align:center;
+
+}
+
+
+.sidebar button{
+
+    background:transparent;
+
+    color:white;
+
+    text-align:right;
+
+    margin-bottom:10px;
+
+}
+
+
+.sidebar button:hover{
+
+    background:rgba(255,255,255,.15);
+
+}
+
+
+.content{
+
+    flex:1;
+
+    padding:30px;
+
+}
+
+
+.content h1{
+
+    margin-bottom:25px;
+
+}
+
+
+.card{
+
+    background:white;
+
+    border-radius:20px;
+
+    padding:25px;
+
+    box-shadow:var(--shadow);
+
+    margin-top:20px;
+
+}
