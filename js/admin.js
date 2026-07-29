@@ -5,7 +5,7 @@ const pageContent =
 document.getElementById("pageContent");
 
 function showLoading(){
-
+showLoading();
 pageContent.innerHTML = `
 
 <div class="loading">
@@ -265,6 +265,7 @@ loadCustomers();
 
 async function showOrdersPage(){
 
+showLoading();
 
 let customers =
 await Sheet.getCustomers();
@@ -448,6 +449,8 @@ alert("سفارش ثبت شد ✅");
 
 async function showPaymentsPage() {
 
+    showLoading();
+    
     const customers = await Sheet.getCustomers();
 
     let options = "";
@@ -545,6 +548,7 @@ async function savePayment() {
 
 async function showReportsPage(){
 
+showLoading();
 
 const orders =
 await Sheet.getOrders();
