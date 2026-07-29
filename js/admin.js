@@ -5,7 +5,7 @@ const pageContent =
 document.getElementById("pageContent");
 
 function showLoading(){
-showLoading();
+    
 pageContent.innerHTML = `
 
 <div class="loading">
