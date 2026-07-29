@@ -35,6 +35,8 @@ async function login() {
 
     });
 
+    alert(JSON.stringify(result.data));
+
     if(
         username === settings.username &&
         password === settings.password
