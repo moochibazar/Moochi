@@ -1300,6 +1300,20 @@ ${formatMoney(total)}
 
 `;
 
+html += `
+
+<div class="card">
+
+<button onclick="makePaymentPDF('${name}')">
+
+📄 گرفتن PDF پرداخت‌ها
+
+</button>
+
+</div>
+
+`;
+    
 pageContent.innerHTML = html;
 
 document.getElementById("plusCount").onclick = () => {
@@ -1479,6 +1493,103 @@ PDF ساخته شد ✅
 </h3>
 
 </div>
+`;
+
+};
+
+window.makePaymentPDF =
+async function(name){
+
+showLoading();
+
+
+const payments =
+await Sheet.getPayments();
+
+
+const customerPayments =
+payments.data
+.slice(1)
+.filter(payment=>payment[1]==name);
+
+
+
+const { jsPDF } =
+window.jspdf;
+
+
+const doc =
+new jsPDF();
+
+
+
+doc.text(
+"Payments Report",
+20,
+20
+);
+
+
+doc.text(
+name,
+20,
+35
+);
+
+
+
+let y = 50;
+
+let total = 0;
+
+
+customerPayments.forEach(payment=>{
+
+
+total += Number(payment[2]) || 0;
+
+
+doc.text(
+`${payment[3]} | ${payment[2]} | ${payment[4] || ""}`,
+20,
+y
+);
+
+
+y += 10;
+
+
+});
+
+
+
+y += 10;
+
+
+doc.text(
+"Total: " + total,
+20,
+y
+);
+
+
+
+doc.save(
+name + "-payments.pdf"
+);
+
+
+
+pageContent.innerHTML = `
+
+<div class="card">
+
+<h3>
+PDF پرداخت ساخته شد ✅
+</h3>
+
+</div>
+
 `;
 
 };
