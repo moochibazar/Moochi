@@ -1566,6 +1566,129 @@ y
 
 y += 10;
 
+window.makeCustomerPDF =
+async function(name){
+
+showLoading();
+
+
+const orders =
+await Sheet.getOrders();
+
+
+const payments =
+await Sheet.getPayments();
+
+
+const { jsPDF } =
+window.jspdf;
+
+
+const doc =
+new jsPDF();
+
+
+doc.addFont(
+"Amiri-Regular.ttf",
+"Amiri",
+"normal"
+);
+
+
+doc.setFont(
+"Amiri"
+);
+
+
+
+let y = 20;
+
+
+doc.setFontSize(18);
+
+doc.text(
+"گزارش کامل حساب مشتری",
+105,
+y,
+{
+align:"center"
+}
+);
+
+
+y += 15;
+
+
+doc.setFontSize(14);
+
+doc.text(
+"مشتری: " + name,
+180,
+y,
+{
+align:"right"
+}
+);
+
+
+
+y += 15;
+
+
+doc.setFontSize(12);
+
+
+doc.text(
+"سفارش ها:",
+180,
+y,
+{
+align:"right"
+}
+);
+
+
+y += 10;
+
+
+
+let totalSales = 0;
+let totalQty = 0;
+
+
+orders.data
+.slice(1)
+.filter(order=>order[1]==name)
+.forEach((order,index)=>{
+
+
+totalSales += Number(order[4]) || 0;
+
+totalQty += Number(order[2]) || 0;
+
+
+
+doc.text(
+`${index+1} - ${order[5]} | تعداد ${order[2]} | مبلغ ${order[4]}`,
+180,
+y,
+{
+align:"right"
+}
+);
+
+
+y += 8;
+
+
+if(y > 280){
+
+doc.addPage();
+
+y=20;
+
+}
+
 
 });
 
@@ -1575,17 +1698,92 @@ y += 10;
 
 
 doc.text(
-"Total: " + total,
-20,
-y
+"جمع سفارش:",
+180,
+y,
+{
+align:"right"
+}
+);
+
+
+y += 10;
+
+
+doc.text(
+`تعداد: ${totalQty}   مبلغ: ${totalSales}`,
+180,
+y,
+{
+align:"right"
+}
+);
+
+
+
+y += 20;
+
+
+
+doc.text(
+"پرداخت ها:",
+180,
+y,
+{
+align:"right"
+}
+);
+
+
+y += 10;
+
+
+let totalPay = 0;
+
+
+payments.data
+.slice(1)
+.filter(payment=>payment[1]==name)
+.forEach((payment,index)=>{
+
+
+totalPay += Number(payment[2]) || 0;
+
+
+doc.text(
+`${index+1} - ${payment[3]} | ${payment[2]}`,
+180,
+y,
+{
+align:"right"
+}
+);
+
+
+y += 8;
+
+
+});
+
+
+
+y += 15;
+
+
+doc.text(
+`مانده حساب: ${totalSales-totalPay}`,
+180,
+y,
+{
+align:"right"
+}
 );
 
 
 
 doc.save(
-name + "-payments.pdf"
+name+"-account.pdf"
 );
-
 
 
 pageContent.innerHTML = `
@@ -1593,7 +1791,7 @@ pageContent.innerHTML = `
 <div class="card">
 
 <h3>
-PDF پرداخت ساخته شد ✅
+PDF ساخته شد ✅
 </h3>
 
 </div>
