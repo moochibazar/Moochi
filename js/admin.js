@@ -1115,19 +1115,7 @@ ${formatMoney(total)}
 
 `;
 
-html += `
 
-<div class="card">
-
-<button onclick="makeCustomerPDF('${name}')">
-
-📄 گرفتن PDF حساب
-
-</button>
-
-</div>
-
-`;
 
 pageContent.innerHTML = html;
 
@@ -1300,19 +1288,7 @@ ${formatMoney(total)}
 
 `;
 
-html += `
 
-<div class="card">
-
-<button onclick="makePaymentPDF('${name}')">
-
-📄 گرفتن PDF پرداخت‌ها
-
-</button>
-
-</div>
-
-`;
     
 pageContent.innerHTML = html;
 
