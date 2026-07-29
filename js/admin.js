@@ -495,7 +495,257 @@ async function savePayment() {
 
 }
 
+// -------- گزارش‌ها --------
 
+async function showReportsPage(){
+
+
+const customers =
+await Sheet.getCustomers();
+
+
+const orders =
+await Sheet.getOrders();
+
+
+const payments =
+await Sheet.getPayments();
+
+
+
+let totalSales = 0;
+
+orders.data
+.slice(1)
+.forEach(order=>{
+
+    totalSales += Number(order[4]) || 0;
+
+});
+
+
+
+let totalPayments = 0;
+
+payments.data
+.slice(1)
+.forEach(payment=>{
+
+    totalPayments += Number(payment[2]) || 0;
+
+});
+
+
+
+let html = `
+
+
+<h2>📄 گزارش‌ها</h2>
+
+
+<div class="card">
+
+<h3>🍡 تعداد سفارش‌ها</h3>
+
+<p>${orders.data.length - 1}</p>
+
+</div>
+
+
+
+<div class="card">
+
+<h3>💰 مجموع فروش</h3>
+
+<p>${totalSales}</p>
+
+</div>
+
+
+
+<div class="card">
+
+<h3>💳 مجموع پرداخت‌ها</h3>
+
+<p>${totalPayments}</p>
+
+</div>
+
+
+
+<div class="card">
+
+<h3>⚠️ بدهی کل</h3>
+
+<p>${totalSales - totalPayments}</p>
+
+</div>
+
+
+
+<h2>👥 حساب مشتری‌ها</h2>
+
+`;
+
+
+
+
+
+customers.data
+.slice(1)
+.forEach(customer=>{
+
+
+let name = customer[1];
+
+
+let customerSales = 0;
+
+let customerPayments = 0;
+
+
+
+orders.data
+.slice(1)
+.forEach(order=>{
+
+    if(order[1] == name){
+
+        customerSales += Number(order[4]) || 0;
+
+    }
+
+});
+
+
+
+payments.data
+.slice(1)
+.forEach(payment=>{
+
+    if(payment[1] == name){
+
+        customerPayments += Number(payment[2]) || 0;
+
+    }
+
+});
+
+
+
+html += `
+
+<div class="card">
+
+
+<h3>${name}</h3>
+
+
+<p>
+فروش:
+${customerSales}
+</p>
+
+
+<p>
+پرداخت:
+${customerPayments}
+</p>
+
+
+<p>
+بدهی:
+${customerSales - customerPayments}
+</p>
+
+
+<button onclick="makePDF('${name}',${customerSales},${customerPayments})">
+
+📄 PDF حساب
+
+</button>
+
+
+</div>
+
+`;
+
+});
+
+
+
+pageContent.innerHTML = html;
+
+
+}
+
+
+
+
+
+// ساخت PDF مشتری
+
+window.makePDF =
+function(name,sales,payments){
+
+
+const { jsPDF } =
+window.jspdf;
+
+
+const doc =
+new jsPDF();
+
+
+
+doc.text(
+"Moochi Account",
+20,
+20
+);
+
+
+
+doc.text(
+"Customer: " + name,
+20,
+40
+);
+
+
+
+doc.text(
+"Sales: " + sales,
+20,
+55
+);
+
+
+
+doc.text(
+"Payments: " + payments,
+20,
+70
+);
+
+
+
+doc.text(
+"Debt: " + (sales-payments),
+20,
+85
+);
+
+
+
+doc.save(
+name + ".pdf"
+);
+
+
+};
+
+    
 // منوها
 
 
@@ -503,7 +753,9 @@ document.getElementById("menuCustomers")
 .onclick =
 showCustomersPage;
 
-
+document.getElementById("menuReports")
+.onclick =
+showReportsPage;
 
 document.getElementById("menuOrders")
 .onclick =
