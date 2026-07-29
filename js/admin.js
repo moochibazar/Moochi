@@ -1368,3 +1368,11 @@ showPaymentsPage;
   
 
 });
+
+window.logout = function(){
+
+    localStorage.removeItem("adminLogin");
+
+    location.href = "login.html";
+
+};
