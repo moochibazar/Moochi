@@ -627,8 +627,6 @@ ${formatMoney(totalSales-totalPayments)}
 </div>
 
 
-`;
-
 <div class="card"
 onclick="showPersonTurnover()">
 
@@ -639,6 +637,9 @@ onclick="showPersonTurnover()">
 </p>
 
 </div>
+
+
+`;
 
 }
 
