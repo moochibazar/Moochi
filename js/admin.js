@@ -1010,7 +1010,7 @@ pageContent.innerHTML = html;
 // نمایش سفارش‌های یک مشتری
 
 window.loadCustomerOrders =
-async function(name){
+async function(name, limit = 10){
 
 
 showLoading();
@@ -1060,7 +1060,6 @@ style="width:70px;text-align:center;">
 
 
 
-const limit = 10;
 const customerOrders =
 orders.data
 .slice(1)
