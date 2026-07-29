@@ -4,7 +4,13 @@ document.addEventListener("DOMContentLoaded", () => {
 const pageContent =
 document.getElementById("pageContent");
 
+function formatMoney(number){
 
+    return Number(number)
+    .toLocaleString("en-US")
+    + " تومان";
+
+}
 
 function showCustomersPage(){
 
@@ -695,55 +701,84 @@ window.jspdf;
 
 const doc =
 new jsPDF();
+async function showReportsPage(){
+
+
+const orders =
+await Sheet.getOrders();
+
+
+const payments =
+await Sheet.getPayments();
+
+
+let totalSales = 0;
+let totalPayments = 0;
 
 
 
-doc.text(
-"Moochi Account",
-20,
-20
-);
+orders.data
+.slice(1)
+.forEach(order=>{
+
+    totalSales += Number(order[4]) || 0;
+
+});
 
 
 
-doc.text(
-"Customer: " + name,
-20,
-40
-);
+payments.data
+.slice(1)
+.forEach(payment=>{
+
+    totalPayments += Number(payment[2]) || 0;
+
+});
 
 
 
-doc.text(
-"Sales: " + sales,
-20,
-55
-);
+
+pageContent.innerHTML = `
+
+
+<h2>📄 گزارش‌ها</h2>
 
 
 
-doc.text(
-"Payments: " + payments,
-20,
-70
-);
+<div class="card" onclick="showSalesReport()">
+
+<h3>💰 مجموع فروش یک ماه گذشته</h3>
+
+<p>${formatMoney(totalSales)}</p>
+
+</div>
 
 
 
-doc.text(
-"Debt: " + (sales-payments),
-20,
-85
-);
+
+<div class="card" onclick="showPaymentsReport()">
+
+<h3>💳 مجموع پرداخت یک ماه گذشته</h3>
+
+<p>${formatMoney(totalPayments)}</p>
+
+</div>
 
 
 
-doc.save(
-name + ".pdf"
-);
+
+<div class="card" onclick="showDebtReport()">
+
+<h3>⚠️ بدهی مشتری‌ها</h3>
+
+<p>${formatMoney(totalSales-totalPayments)}</p>
+
+</div>
 
 
-};
+`;
+
+}
 
     
 // منوها
