@@ -780,6 +780,84 @@ pageContent.innerHTML = `
 
 }
 
+async function showSalesReport(){
+
+
+const orders =
+await Sheet.getOrders();
+
+
+let customers = {};
+
+
+
+orders.data
+.slice(1)
+.forEach(order=>{
+
+
+let name = order[1];
+
+
+let amount =
+Number(order[4]) || 0;
+
+
+
+if(!customers[name]){
+
+    customers[name]=0;
+
+}
+
+
+customers[name] += amount;
+
+
+
+});
+
+
+
+let html = `
+
+<h2>💰 فروش هر مشتری</h2>
+
+`;
+
+
+
+Object.keys(customers)
+.forEach(name=>{
+
+
+html += `
+
+<div class="card">
+
+<h3>${name}</h3>
+
+<p>
+
+فروش:
+
+${formatMoney(customers[name])}
+
+</p>
+
+</div>
+
+`;
+
+
+});
+
+
+
+pageContent.innerHTML = html;
+
+
+}
     
 // منوها
 
