@@ -885,9 +885,216 @@ ${formatMoney(debt)}
 
 `;
 
+<div class="card"
+onclick="showPersonTurnover()">
+
+<h3>🔄 گردش اشخاص</h3>
+
+<p>
+سفارش‌ها و پرداخت‌های مشتری
+</p>
+
+</div>
+
+});
+
+
+
+pageContent.innerHTML = html;
+
+
+};
+
+
+// -------- گردش اشخاص --------
+
+window.showPersonTurnover =
+async function(){
+
+
+showLoading();
+
+
+
+pageContent.innerHTML = `
+
+<h2>🔄 گردش اشخاص</h2>
+
+
+<div class="card"
+onclick="showPersonOrders()">
+
+<h3>🍡 سفارش‌ها</h3>
+
+<p>
+مشاهده گردش سفارش مشتری‌ها
+</p>
+
+</div>
+
+
+
+<div class="card"
+onclick="showPersonPayments()">
+
+<h3>💳 پرداخت‌ها</h3>
+
+<p>
+مشاهده گردش پرداخت مشتری‌ها
+</p>
+
+</div>
+
+
+`;
+
+
+
+};
+
+// انتخاب مشتری برای سفارش‌ها
+
+window.showPersonOrders =
+async function(){
+
+showLoading();
+
+
+const customers =
+await Sheet.getCustomers();
+
+
+
+let html = `
+
+<h2>🍡 گردش سفارش‌ها</h2>
+
+`;
+
+
+
+customers.data
+.slice(1)
+.forEach(customer=>{
+
+
+html += `
+
+<div class="card"
+onclick="loadCustomerOrders('${customer[1]}')">
+
+<h3>
+${customer[1]}
+</h3>
+
+</div>
+
+`;
+
+});
+
+
+
+pageContent.innerHTML = html;
+
+
+};
+
+
+
+
+
+// نمایش سفارش‌های یک مشتری
+
+window.loadCustomerOrders =
+async function(name){
+
+
+showLoading();
+
+
+
+const orders =
+await Sheet.getOrders();
+
+
+
+let html = `
+
+<h2>🍡 سفارش‌های ${name}</h2>
+
+`;
+
+
+
+let total = 0;
+
+
+
+orders.data
+.slice(1)
+.forEach(order=>{
+
+
+if(order[1] == name){
+
+
+total += Number(order[4]) || 0;
+
+
+
+html += `
+
+<div class="card">
+
+
+<p>
+📅 تاریخ:
+${order[5]}
+</p>
+
+
+<p>
+تعداد:
+${order[2]}
+</p>
+
+
+<p>
+قیمت واحد:
+${formatMoney(order[3])}
+</p>
+
+
+<p>
+مبلغ:
+${formatMoney(order[4])}
+</p>
+
+
+</div>
+
+`;
+
+}
 
 
 });
+
+
+
+html += `
+
+<div class="card">
+
+<h3>
+جمع سفارش‌ها:
+${formatMoney(total)}
+</h3>
+
+</div>
+
+`;
 
 
 
