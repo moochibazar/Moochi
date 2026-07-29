@@ -1148,7 +1148,183 @@ loadCustomerOrders(name, count);
 
 };
 };
-  
+
+// انتخاب مشتری برای پرداخت‌ها
+
+window.showPersonPayments =
+async function(){
+
+showLoading();
+
+const customers =
+await Sheet.getCustomers();
+
+let html = `
+
+<h2>💳 گردش پرداخت‌ها</h2>
+
+`;
+
+customers.data
+.slice(1)
+.forEach(customer=>{
+
+html += `
+
+<div class="card"
+onclick="loadCustomerPayments('${customer[1]}')">
+
+<h3>
+${customer[1]}
+</h3>
+
+</div>
+
+`;
+
+});
+
+pageContent.innerHTML = html;
+
+};
+
+
+
+
+// نمایش پرداخت‌های یک مشتری
+
+window.loadCustomerPayments =
+async function(name, limit = 10){
+
+showLoading();
+
+const payments =
+await Sheet.getPayments();
+
+let html = `
+
+<h2>💳 پرداخت‌های ${name}</h2>
+
+`;
+
+html += `
+
+<div class="card">
+
+<label>تعداد پرداخت‌های آخر</label>
+
+<div style="display:flex;gap:10px;align-items:center;">
+
+<button id="minusCount">-</button>
+
+<input
+id="paymentLimit"
+type="number"
+value="10"
+min="1"
+style="width:70px;text-align:center;">
+
+<button id="plusCount">+</button>
+
+<button id="reloadPayments">
+نمایش
+</button>
+
+</div>
+
+</div>
+
+`;
+
+const customerPayments =
+payments.data
+.slice(1)
+.filter(payment => payment[1] == name)
+.slice(-limit);
+
+let total = 0;
+
+customerPayments.forEach(payment=>{
+
+total += Number(payment[2]) || 0;
+
+html += `
+
+<div class="card">
+
+<p>
+📅 تاریخ:
+${payment[3]}
+</p>
+
+<p>
+مبلغ:
+${formatMoney(payment[2])}
+</p>
+
+<p>
+توضیحات:
+${payment[4] || "-"}
+</p>
+
+</div>
+
+`;
+
+});
+
+html += `
+
+<div class="card">
+
+<h3>
+
+جمع پرداخت‌ها:
+${formatMoney(total)}
+
+</h3>
+
+</div>
+
+`;
+
+pageContent.innerHTML = html;
+
+document.getElementById("plusCount").onclick = () => {
+
+let input =
+document.getElementById("paymentLimit");
+
+input.value =
+Number(input.value)+1;
+
+};
+
+document.getElementById("minusCount").onclick = () => {
+
+let input =
+document.getElementById("paymentLimit");
+
+if(Number(input.value)>1){
+
+input.value =
+Number(input.value)-1;
+
+}
+
+};
+
+document.getElementById("reloadPayments").onclick = () => {
+
+const count =
+Number(document.getElementById("paymentLimit").value);
+
+loadCustomerPayments(name,count);
+
+};
+
+};
+    
 // منوها
 
 
