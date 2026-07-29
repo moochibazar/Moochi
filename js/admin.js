@@ -1192,8 +1192,6 @@ document.getElementById("reloadOrders").onclick = () => {
     loadCustomerOrders(name);
 
 };
-
-};
   
 // منوها
 
