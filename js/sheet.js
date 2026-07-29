@@ -133,7 +133,14 @@ getPayments() {
 
 },
 
+getSettings(){
 
+    return api(
+        "read",
+        "Settings"
+    );
+
+},
 
 addPayment(customerName, amount, description) {
 
