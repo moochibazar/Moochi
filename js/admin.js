@@ -1408,7 +1408,11 @@ window.jspdf;
 
 
 const doc =
-new jsPDF();
+new jsPDF({
+    orientation: "portrait",
+    unit: "mm",
+    format: "a4"
+});
 
 
 
@@ -1519,7 +1523,11 @@ window.jspdf;
 
 
 const doc =
-new jsPDF();
+new jsPDF({
+    orientation: "portrait",
+    unit: "mm",
+    format: "a4"
+});
 
 
 
