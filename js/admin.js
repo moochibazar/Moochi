@@ -644,6 +644,16 @@ onclick="showPersonTurnover()">
 
 </div>
 
+<div class="card"
+onclick="showSalaryReport()">
+
+<h3>👷 دستمزد</h3>
+
+<p>
+محاسبه دستمزد تولید
+</p>
+
+</div>
 
 `;
 
@@ -1374,5 +1384,115 @@ window.logout = function(){
     localStorage.removeItem("adminLogin");
 
     location.href = "login.html";
+
+window.showSalaryReport = async function(limit = null){
+
+showLoading();
+
+const orders = await Sheet.getOrders();
+
+let list = orders.data.slice(1);
+
+if(limit){
+
+list = list.slice(-limit);
+
+}
+
+let totalQty = 0;
+
+list.forEach(order=>{
+
+totalQty += Number(order[2]) || 0;
+
+});
+
+const salary1 = totalQty * 5000;
+
+const salary2 = totalQty * 10000;
+
+const title = limit ? `${limit} سفارش آخر` : "همه سفارش‌ها";
+
+pageContent.innerHTML = `
+
+<h2>👷 گزارش دستمزد</h2>
+
+<div class="card">
+
+<h3>${title}</h3>
+
+<p>تعداد موچی: <b>${totalQty}</b> عدد</p>
+
+<p>دستمزد یک: <b>${formatMoney(salary1)}</b></p>
+
+<p>دستمزد دو: <b>${formatMoney(salary2)}</b></p>
+
+</div>
+
+<div class="card">
+
+<label>تعداد سفارش‌های آخر</label>
+
+<div style="display:flex;gap:10px;align-items:center;">
+
+<button id="minusSalary">-</button>
+
+<input
+id="salaryLimit"
+type="number"
+placeholder="همه"
+style="width:70px;text-align:center;">
+
+<button id="plusSalary">+</button>
+
+<button id="reloadSalary">نمایش</button>
+
+</div>
+
+</div>
+
+`;
+
+document.getElementById("plusSalary").onclick = ()=>{
+
+const input = document.getElementById("salaryLimit");
+
+input.value = Number(input.value || 0) + 1;
+
+};
+
+document.getElementById("minusSalary").onclick = ()=>{
+
+const input = document.getElementById("salaryLimit");
+
+let value = Number(input.value || 0);
+
+if(value > 1){
+
+input.value = value - 1;
+
+}else{
+
+input.value = "";
+
+}
+
+};
+
+document.getElementById("reloadSalary").onclick = ()=>{
+
+const value = Number(document.getElementById("salaryLimit").value);
+
+if(value > 0){
+
+showSalaryReport(value);
+
+}else{
+
+showSalaryReport();
+
+}
+
+};
 
 };
