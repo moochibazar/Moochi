@@ -629,6 +629,17 @@ ${formatMoney(totalSales-totalPayments)}
 
 `;
 
+<div class="card"
+onclick="showPersonTurnover()">
+
+<h3>🔄 گردش اشخاص</h3>
+
+<p>
+سفارش‌ها و پرداخت‌های مشتری
+</p>
+
+</div>
+
 }
 
 // فروش هر مشتری
@@ -885,16 +896,7 @@ ${formatMoney(debt)}
 
 `;
 
-<div class="card"
-onclick="showPersonTurnover()">
 
-<h3>🔄 گردش اشخاص</h3>
-
-<p>
-سفارش‌ها و پرداخت‌های مشتری
-</p>
-
-</div>
 
 });
 
