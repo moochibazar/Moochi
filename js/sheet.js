@@ -120,6 +120,41 @@ new Date().toLocaleString("fa-IR")
 
 }
 
+,
 
+// ---------- پرداخت‌ها ----------
+
+getPayments() {
+
+    return api(
+        "read",
+        "Payments"
+    );
+
+},
+
+
+
+addPayment(customerName, amount, description) {
+
+    return api(
+        "write",
+        "Payments",
+        [
+
+            crypto.randomUUID(),
+
+            customerName,
+
+            Number(amount),
+
+            new Date().toLocaleString("fa-IR"),
+
+            description || ""
+
+        ]
+    );
+
+}
 
 };
