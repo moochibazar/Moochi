@@ -1115,7 +1115,19 @@ ${formatMoney(total)}
 
 `;
 
+html += `
 
+<div class="card">
+
+<button onclick="makeCustomerPDF('${name}')">
+
+📄 گرفتن PDF حساب
+
+</button>
+
+</div>
+
+`;
 
 pageContent.innerHTML = html;
 
@@ -1322,6 +1334,152 @@ Number(document.getElementById("paymentLimit").value);
 loadCustomerPayments(name,count);
 
 };
+
+};
+
+window.makeCustomerPDF =
+async function(name){
+
+showLoading();
+
+
+const orders =
+await Sheet.getOrders();
+
+
+const payments =
+await Sheet.getPayments();
+
+
+let sales = [];
+let pays = [];
+
+
+orders.data
+.slice(1)
+.filter(order=>order[1]==name)
+.forEach(order=>{
+
+sales.push(
+[
+order[5],
+order[2],
+order[3],
+order[4]
+]
+);
+
+});
+
+
+payments.data
+.slice(1)
+.filter(payment=>payment[1]==name)
+.forEach(payment=>{
+
+pays.push(
+[
+payment[3],
+payment[2],
+payment[4]
+]
+);
+
+});
+
+
+
+const { jsPDF } =
+window.jspdf;
+
+
+const doc =
+new jsPDF();
+
+
+
+doc.text(
+"Customer Account",
+20,
+20
+);
+
+
+doc.text(
+name,
+20,
+35
+);
+
+
+
+let y = 50;
+
+
+doc.text(
+"Orders:",
+20,
+y
+);
+
+y += 10;
+
+
+sales.forEach(item=>{
+
+doc.text(
+`${item[0]} | Qty:${item[1]} | ${item[3]}`,
+20,
+y
+);
+
+y += 10;
+
+});
+
+
+
+y += 10;
+
+
+doc.text(
+"Payments:",
+20,
+y
+);
+
+y += 10;
+
+
+pays.forEach(item=>{
+
+doc.text(
+`${item[0]} | ${item[1]} | ${item[2]}`,
+20,
+y
+);
+
+y += 10;
+
+});
+
+
+
+doc.save(
+name + "-account.pdf"
+);
+
+
+pageContent.innerHTML =
+`
+<div class="card">
+
+<h3>
+PDF ساخته شد ✅
+</h3>
+
+</div>
+`;
 
 };
     
