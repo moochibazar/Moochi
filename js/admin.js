@@ -1028,15 +1028,74 @@ let html = `
 
 `;
 
+html += `
 
+<div class="card">
+
+<label>تعداد سفارش‌های آخر</label>
+
+<div style="display:flex;gap:10px;align-items:center;">
+
+<button id="minusCount">-</button>
+
+<input
+id="orderLimit"
+type="number"
+value="10"
+min="1"
+style="width:70px;text-align:center;">
+
+<button id="plusCount">+</button>
+
+<button id="reloadOrders">
+نمایش
+</button>
+
+</div>
+
+</div>
+
+`;
 
 let total = 0;
 
 
 
+const limit =
+Number(document.getElementById("orderLimit")?.value || 10);
+
+const customerOrders =
 orders.data
 .slice(1)
-.forEach(order=>{
+.filter(order => order[1] == name)
+.slice(-limit);
+
+let total = 0;
+let totalQty = 0;
+
+customerOrders.forEach(order=>{
+
+    total += Number(order[4]) || 0;
+
+    totalQty += Number(order[2]) || 0;
+
+    html += `
+
+<div class="card">
+
+<p>📅 تاریخ: ${order[5]}</p>
+
+<p>تعداد: ${order[2]}</p>
+
+<p>قیمت واحد: ${formatMoney(order[3])}</p>
+
+<p>مبلغ: ${formatMoney(order[4])}</p>
+
+</div>
+
+`;
+
+});
 
 
 if(order[1] == name){
@@ -1090,10 +1149,15 @@ html += `
 
 <div class="card">
 
-<h3>
-جمع سفارش‌ها:
+<p>
+جمع تعداد:
+${totalQty} عدد
+</p>
+
+<p>
+جمع مبلغ:
 ${formatMoney(total)}
-</h3>
+</p>
 
 </div>
 
@@ -1103,6 +1167,31 @@ ${formatMoney(total)}
 
 pageContent.innerHTML = html;
 
+document.getElementById("plusCount").onclick = () => {
+
+    let input = document.getElementById("orderLimit");
+
+    input.value = Number(input.value) + 1;
+
+};
+
+document.getElementById("minusCount").onclick = () => {
+
+    let input = document.getElementById("orderLimit");
+
+    if(Number(input.value) > 1){
+
+        input.value = Number(input.value) - 1;
+
+    }
+
+};
+
+document.getElementById("reloadOrders").onclick = () => {
+
+    loadCustomerOrders(name);
+
+};
 
 };
   
