@@ -26,7 +26,6 @@ window.printCustomerReport = async function(name){
         <tr>
             <td>${order[5]}</td>
             <td>${order[2]}</td>
-            <td>${Number(order[3]).toLocaleString()}</td>
             <td>${Number(order[4]).toLocaleString()}</td>
         </tr>
         `;
@@ -146,7 +145,6 @@ cursor:pointer;
 
 <th>تاریخ</th>
 <th>تعداد</th>
-<th>قیمت واحد</th>
 <th>مبلغ</th>
 
 </tr>
