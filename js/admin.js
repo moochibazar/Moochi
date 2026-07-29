@@ -4,6 +4,46 @@ document.addEventListener("DOMContentLoaded", () => {
 const pageContent =
 document.getElementById("pageContent");
 
+function showLoading(){
+
+pageContent.innerHTML = `
+
+<div class="loading">
+
+<div class="spinner"></div>
+
+<p>
+در حال دریافت اطلاعات...
+</p>
+
+</div>
+
+`;
+
+}
+
+
+function addBackButton(){
+
+return `
+
+<button onclick="goBack()">
+
+⬅️ بازگشت
+
+</button>
+
+`;
+
+}
+
+
+window.goBack = function(){
+
+location.reload();
+
+};
+    
 function formatMoney(number){
 
     return Number(number)
