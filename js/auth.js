@@ -35,12 +35,10 @@ async function login() {
 
     });
 
-    alert(JSON.stringify(result.data));
-
     if(
-        username === settings.username &&
-        password === settings.password
-    ){
+    username === String(settings.username) &&
+    password === String(settings.password)
+){
 
         localStorage.setItem(
             "adminLogin",
