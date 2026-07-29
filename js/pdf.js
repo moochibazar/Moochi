@@ -1,6 +1,5 @@
 window.makeCustomerPDF = async function(name){
 
-showLoading();
 
 
 const orders =
@@ -200,17 +199,7 @@ name + "-account.pdf"
 
 
 
-pageContent.innerHTML = `
-
-<div class="card">
-
-<h3>
-PDF ساخته شد ✅
-</h3>
-
-</div>
-
-`;
+alert("PDF ساخته شد ✅");
 
 
 };
@@ -301,5 +290,6 @@ doc.save(
 name + "-payments.pdf"
 );
 
-
+alert("PDF ساخته شد ✅");
+  
 };
