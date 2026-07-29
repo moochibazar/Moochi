@@ -1057,13 +1057,10 @@ style="width:70px;text-align:center;">
 
 `;
 
-let total = 0;
 
 
 
-const limit =
-Number(document.getElementById("orderLimit")?.value || 10);
-
+const limit = 10;
 const customerOrders =
 orders.data
 .slice(1)
@@ -1098,50 +1095,6 @@ customerOrders.forEach(order=>{
 });
 
 
-if(order[1] == name){
-
-
-total += Number(order[4]) || 0;
-
-
-
-html += `
-
-<div class="card">
-
-
-<p>
-📅 تاریخ:
-${order[5]}
-</p>
-
-
-<p>
-تعداد:
-${order[2]}
-</p>
-
-
-<p>
-قیمت واحد:
-${formatMoney(order[3])}
-</p>
-
-
-<p>
-مبلغ:
-${formatMoney(order[4])}
-</p>
-
-
-</div>
-
-`;
-
-}
-
-
-});
 
 
 
@@ -1189,8 +1142,12 @@ document.getElementById("minusCount").onclick = () => {
 
 document.getElementById("reloadOrders").onclick = () => {
 
-    loadCustomerOrders(name);
+    const count =
+Number(document.getElementById("orderLimit").value);
 
+loadCustomerOrders(name, count);
+
+};
 };
   
 // منوها
