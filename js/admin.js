@@ -745,33 +745,86 @@ pageContent.innerHTML = `
 
 
 
-<div class="card" onclick="showSalesReport()">
+<div clas
+
+// -------- گزارش‌ها --------
+
+async function showReportsPage(){
+
+
+const orders =
+await Sheet.getOrders();
+
+
+const payments =
+await Sheet.getPayments();
+
+
+
+let totalSales = 0;
+
+orders.data
+.slice(1)
+.forEach(order=>{
+
+    totalSales += Number(order[4]) || 0;
+
+});
+
+
+
+let totalPayments = 0;
+
+payments.data
+.slice(1)
+.forEach(payment=>{
+
+    totalPayments += Number(payment[2]) || 0;
+
+});
+
+
+
+pageContent.innerHTML = `
+
+
+<h2>📄 گزارش‌ها</h2>
+
+
+<div class="card"
+onclick="showSalesReport()">
 
 <h3>💰 مجموع فروش یک ماه گذشته</h3>
 
-<p>${formatMoney(totalSales)}</p>
+<p>
+${formatMoney(totalSales)}
+</p>
 
 </div>
 
 
 
-
-<div class="card" onclick="showPaymentsReport()">
+<div class="card"
+onclick="showPaymentsReport()">
 
 <h3>💳 مجموع پرداخت یک ماه گذشته</h3>
 
-<p>${formatMoney(totalPayments)}</p>
+<p>
+${formatMoney(totalPayments)}
+</p>
 
 </div>
 
 
 
-
-<div class="card" onclick="showDebtReport()">
+<div class="card"
+onclick="showDebtReport()">
 
 <h3>⚠️ بدهی مشتری‌ها</h3>
 
-<p>${formatMoney(totalSales-totalPayments)}</p>
+<p>
+${formatMoney(totalSales-totalPayments)}
+</p>
 
 </div>
 
@@ -780,14 +833,21 @@ pageContent.innerHTML = `
 
 }
 
-async function showSalesReport(){
+
+
+
+
+// فروش هر مشتری
+
+window.showSalesReport =
+async function(){
 
 
 const orders =
 await Sheet.getOrders();
 
 
-let customers = {};
+let data = {};
 
 
 
@@ -798,21 +858,15 @@ orders.data
 
 let name = order[1];
 
-
 let amount =
 Number(order[4]) || 0;
 
 
-
-if(!customers[name]){
-
-    customers[name]=0;
-
-}
+if(!data[name])
+data[name]=0;
 
 
-customers[name] += amount;
-
+data[name]+=amount;
 
 
 });
@@ -821,13 +875,13 @@ customers[name] += amount;
 
 let html = `
 
-<h2>💰 فروش هر مشتری</h2>
+<h2>💰 فروش مشتری‌ها</h2>
 
 `;
 
 
 
-Object.keys(customers)
+Object.keys(data)
 .forEach(name=>{
 
 
@@ -838,11 +892,8 @@ html += `
 <h3>${name}</h3>
 
 <p>
-
 فروش:
-
-${formatMoney(customers[name])}
-
+${formatMoney(data[name])}
 </p>
 
 </div>
@@ -857,7 +908,191 @@ ${formatMoney(customers[name])}
 pageContent.innerHTML = html;
 
 
+};
+
+
+
+
+
+// پرداخت هر مشتری
+
+window.showPaymentsReport =
+async function(){
+
+
+const payments =
+await Sheet.getPayments();
+
+
+
+let data = {};
+
+
+
+payments.data
+.slice(1)
+.forEach(payment=>{
+
+
+let name = payment[1];
+
+let amount =
+Number(payment[2]) || 0;
+
+
+if(!data[name])
+data[name]=0;
+
+
+data[name]+=amount;
+
+
+});
+
+
+
+let html = `
+
+<h2>💳 پرداخت مشتری‌ها</h2>
+
+`;
+
+
+
+Object.keys(data)
+.forEach(name=>{
+
+
+html += `
+
+<div class="card">
+
+<h3>${name}</h3>
+
+<p>
+پرداخت:
+${formatMoney(data[name])}
+</p>
+
+</div>
+
+`;
+
+});
+
+
+
+pageContent.innerHTML = html;
+
+
+};
+
+
+
+
+
+
+// بدهی هر مشتری
+
+window.showDebtReport =
+async function(){
+
+
+const customers =
+await Sheet.getCustomers();
+
+
+const orders =
+await Sheet.getOrders();
+
+
+const payments =
+await Sheet.getPayments();
+
+
+
+let html = `
+
+<h2>⚠️ بدهی مشتری‌ها</h2>
+
+`;
+
+
+
+customers.data
+.slice(1)
+.forEach(customer=>{
+
+
+let name = customer[1];
+
+
+let sales = 0;
+
+let paid = 0;
+
+
+
+orders.data
+.slice(1)
+.forEach(order=>{
+
+if(order[1] == name){
+
+sales += Number(order[4]) || 0;
+
 }
+
+});
+
+
+
+payments.data
+.slice(1)
+.forEach(payment=>{
+
+if(payment[1] == name){
+
+paid += Number(payment[2]) || 0;
+
+}
+
+});
+
+
+
+let debt =
+sales - paid;
+
+
+
+html += `
+
+<div class="card">
+
+<h3>${name}</h3>
+
+
+<p>
+بدهی:
+${formatMoney(debt)}
+</p>
+
+
+</div>
+
+`;
+
+
+
+});
+
+
+
+pageContent.innerHTML = html;
+
+
+};
     
 // منوها
 
