@@ -398,7 +398,102 @@ alert("سفارش ثبت شد ✅");
 
 }
 
+// -------- پرداخت جدید --------
 
+async function showPaymentsPage() {
+
+    const customers = await Sheet.getCustomers();
+
+    let options = "";
+
+    customers.data
+    .slice(1)
+    .forEach(customer => {
+
+        options += `
+            <option value="${customer[1]}">
+                ${customer[1]}
+            </option>
+        `;
+
+    });
+
+    pageContent.innerHTML = `
+
+        <h2>💰 پرداخت جدید</h2>
+
+        <div class="card">
+
+            <select id="paymentCustomer">
+
+                <option value="">
+                    انتخاب مشتری
+                </option>
+
+                ${options}
+
+            </select>
+
+            <input
+                id="paymentAmount"
+                type="number"
+                placeholder="مبلغ پرداخت">
+
+            <input
+                id="paymentDescription"
+                placeholder="توضیحات (اختیاری)">
+
+            <button id="savePayment">
+                ثبت پرداخت
+            </button>
+
+        </div>
+
+    `;
+
+    document
+        .getElementById("savePayment")
+        .onclick = savePayment;
+
+}
+
+
+
+async function savePayment() {
+
+    const customer =
+        document.getElementById("paymentCustomer").value;
+
+    const amount =
+        document.getElementById("paymentAmount").value;
+
+    const description =
+        document.getElementById("paymentDescription").value;
+
+    if (!customer || !amount) {
+
+        alert("اطلاعات را کامل کنید");
+
+        return;
+
+    }
+
+    const result =
+        await Sheet.addPayment(
+            customer,
+            amount,
+            description
+        );
+
+    if (result.success) {
+
+        alert("پرداخت ثبت شد ✅");
+
+        showPaymentsPage();
+
+    }
+
+}
 
 
 // منوها
@@ -414,6 +509,9 @@ document.getElementById("menuOrders")
 .onclick =
 showOrdersPage;
 
-
+document.getElementById("menuPayments")
+.onclick =
+showPaymentsPage;
+  
 
 });
