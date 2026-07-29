@@ -1116,7 +1116,20 @@ ${formatMoney(total)}
 `;
 
 
+html += `
 
+<div class="card">
+
+<button onclick="printCustomerReport('${name}')">
+
+🖨 چاپ گزارش مشتری
+
+</button>
+
+</div>
+
+`;
+    
 pageContent.innerHTML = html;
 
 document.getElementById("plusCount").onclick = () => {
