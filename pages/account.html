@@ -1,1 +1,522 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
 
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>حساب مشتری | Mochi Bazar</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Vazirmatn',sans-serif;
+}
+
+body{
+
+background:#050505;
+color:#fff;
+padding:20px;
+background-image:
+radial-gradient(circle at top,#2b2100 0%,#050505 55%);
+}
+
+.container{
+
+max-width:850px;
+margin:auto;
+
+}
+
+.logo{
+
+text-align:center;
+font-size:38px;
+font-weight:bold;
+color:#d4af37;
+margin-top:10px;
+
+}
+
+.subtitle{
+
+text-align:center;
+color:#c9c9c9;
+margin-top:8px;
+margin-bottom:25px;
+
+}
+
+.card{
+
+background:#111;
+border:1px solid rgba(212,175,55,.35);
+border-radius:18px;
+padding:18px;
+margin-bottom:18px;
+box-shadow:
+0 0 20px rgba(212,175,55,.08);
+
+}
+
+.customerName{
+
+font-size:28px;
+font-weight:bold;
+color:#FFD700;
+margin-bottom:8px;
+
+}
+
+.customerCode{
+
+color:#aaa;
+font-size:15px;
+
+}
+
+.filter{
+
+display:flex;
+justify-content:center;
+align-items:center;
+gap:12px;
+margin-top:10px;
+flex-wrap:wrap;
+
+}
+
+.circle{
+
+width:42px;
+height:42px;
+border-radius:50%;
+border:1px solid #d4af37;
+background:#1a1a1a;
+color:#FFD700;
+font-size:22px;
+cursor:pointer;
+
+}
+
+.circle:hover{
+
+background:#d4af37;
+color:#000;
+
+}
+
+#limit{
+
+width:70px;
+height:42px;
+text-align:center;
+border-radius:10px;
+border:1px solid #d4af37;
+background:#111;
+color:#FFD700;
+font-size:18px;
+
+}
+
+.showBtn{
+
+height:42px;
+padding:0 22px;
+border:none;
+border-radius:10px;
+background:#d4af37;
+color:#000;
+font-weight:bold;
+cursor:pointer;
+
+}
+
+.showBtn:hover{
+
+opacity:.9;
+
+}
+
+.summary{
+
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:15px;
+
+}
+
+.smallCard{
+
+background:#181818;
+padding:15px;
+border-radius:14px;
+border:1px solid rgba(212,175,55,.2);
+
+}
+
+.smallCard h3{
+
+font-size:15px;
+color:#bbb;
+margin-bottom:10px;
+
+}
+
+.value{
+
+font-size:24px;
+font-weight:bold;
+color:#fff;
+
+}
+
+.balance{
+
+text-align:center;
+
+}
+
+.balance .value{
+
+font-size:34px;
+
+}
+
+.balance.green{
+
+color:#1ed760;
+
+}
+
+.balance.red{
+
+color:#ff4c4c;
+
+}
+
+.sectionTitle{
+
+font-size:22px;
+color:#FFD700;
+margin-bottom:15px;
+
+}
+
+#orders{
+
+display:flex;
+flex-direction:column;
+gap:12px;
+
+}
+
+#payments{
+
+display:flex;
+flex-direction:column;
+gap:12px;
+
+}
+
+.item{
+
+background:#161616;
+border:1px solid rgba(212,175,55,.2);
+border-radius:14px;
+padding:15px;
+
+}
+
+.itemTitle{
+
+font-size:18px;
+color:#FFD700;
+margin-bottom:8px;
+
+}
+
+.item p{
+
+margin:5px 0;
+color:#ddd;
+
+}
+
+.loading{
+
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+padding:60px;
+
+}
+
+.spinner{
+
+width:55px;
+height:55px;
+border-radius:50%;
+border:5px solid #333;
+border-top-color:#FFD700;
+animation:spin .8s linear infinite;
+
+}
+
+@keyframes spin{
+
+to{
+
+transform:rotate(360deg);
+
+}
+
+}
+
+.footer{
+
+text-align:center;
+margin:40px 0 10px;
+color:#777;
+font-size:14px;
+
+}
+
+@media(max-width:700px){
+
+.summary{
+
+grid-template-columns:1fr;
+
+}
+
+.customerName{
+
+font-size:24px;
+
+}
+
+.logo{
+
+font-size:32px;
+
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="logo">
+🍡 MOCHI BAZAR
+</div>
+
+<div class="subtitle">
+حساب اختصاصی مشتری
+</div>
+
+<div class="card">
+
+<div class="customerName" id="customerName">
+در حال بارگذاری...
+</div>
+
+<div class="customerCode" id="customerCode">
+
+کد مشتری:
+
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="filter">
+
+<button class="circle" id="minus">
+−
+</button>
+
+<input
+id="limit"
+type="number"
+value="30"
+min="1">
+
+<button class="circle" id="plus">
++
+</button>
+
+<button
+class="showBtn"
+id="reload">
+
+نمایش
+
+</button>
+
+</div>
+
+</div>
+
+<div class="card balance">
+
+<h2>
+مانده حساب
+</h2>
+
+<div
+class="value"
+id="balance">
+
+0 تومان
+
+</div>
+
+</div>
+
+<div class="summary">
+
+<div class="smallCard">
+
+<h3>
+جمع خرید
+</h3>
+
+<div
+class="value"
+id="totalSales">
+
+0
+
+</div>
+
+</div>
+
+<div class="smallCard">
+
+<h3>
+جمع پرداخت
+</h3>
+
+<div
+class="value"
+id="totalPayments">
+
+0
+
+</div>
+
+</div>
+
+<div class="smallCard">
+
+<h3>
+مجموع تعداد سفارش
+</h3>
+
+<div
+class="value"
+id="totalQty">
+
+0
+
+</div>
+
+</div>
+
+<div class="smallCard">
+
+<h3>
+تعداد پرداخت
+</h3>
+
+<div
+class="value"
+id="paymentCount">
+
+0
+
+</div>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="sectionTitle">
+
+🍡 سفارش‌های اخیر
+
+</div>
+
+<div id="orders">
+
+<div class="loading">
+
+<div class="spinner"></div>
+
+<p style="margin-top:15px">
+
+در حال بارگذاری...
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="sectionTitle">
+
+💳 پرداخت‌های اخیر
+
+</div>
+
+<div id="payments">
+
+<div class="loading">
+
+<div class="spinner"></div>
+
+<p style="margin-top:15px">
+
+در حال بارگذاری...
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="footer">
+
+© Mochi Bazar
+
+</div>
+
+</div>
+
+<!-- بخش دوم اینجا اضافه خواهد شد -->
+
+</body>
+</html>
