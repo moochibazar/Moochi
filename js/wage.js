@@ -82,11 +82,21 @@ async function calculatePaidWages(type){
     .forEach(wage=>{
 
 
-        if(wage[1] == type){
+        const wageDate =
+String(wage[3])
+.trim()
+.replace(/[۰-۹]/g, d => "۰۱۲۳۴۵۶۷۸۹".indexOf(d));
 
-            totalPaid += Number(wage[2]) || 0;
 
-        }
+if(
+    wage[1] == type &&
+    wageDate >= wageFromDate &&
+    wageDate <= wageToDate
+){
+
+    totalPaid += Number(wage[2]) || 0;
+
+}
 
 
     });
