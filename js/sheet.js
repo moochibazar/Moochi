@@ -1,3 +1,11 @@
+function getPersianDate(){
+
+    return new Date()
+    .toLocaleDateString("fa-IR")
+    .replace(/[۰-۹]/g, d => "۰۱۲۳۴۵۶۷۸۹".indexOf(d));
+
+}
+
 const Sheet = {
 
 
@@ -112,7 +120,7 @@ Number(price),
 
 total,
 
-new Date().toLocaleString("fa-IR")
+getPersianDate()
 
 ]
 );
@@ -155,7 +163,7 @@ addPayment(customerName, amount, description) {
 
             Number(amount),
 
-            new Date().toLocaleString("fa-IR"),
+            getPersianDate()
 
             description || ""
 
