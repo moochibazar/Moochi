@@ -169,7 +169,12 @@ document.getElementById("pageContent");
 const data =
 await calculateWages();
 
+const paid =
+await calculatePaidWages("دستمزد یک");
 
+
+const remain =
+data.wageOne - paid;
 
 pageContent.innerHTML = `
 
@@ -197,9 +202,23 @@ ${data.totalMochi} عدد
 
 
 <p>
+کل دستمزد:
 ${data.wageOne.toLocaleString()} تومان
 </p>
 
+
+<p>
+پرداخت شده:
+${paid.toLocaleString()} تومان
+</p>
+
+
+<p>
+<b>
+مانده:
+${remain.toLocaleString()} تومان
+</b>
+</p>
 
 
 </div>
@@ -403,5 +422,30 @@ showAddWagePage();
 
 }
 
+async function calculatePaidWages(type){
 
+    const wages =
+    await Sheet.getWages();
+
+
+    let totalPaid = 0;
+
+
+    wages.data
+    .slice(1)
+    .forEach(wage=>{
+
+        if(wage[1] == type){
+
+            totalPaid += Number(wage[2]) || 0;
+
+        }
+
+    });
+
+
+    return totalPaid;
+
+}
+    
 };
