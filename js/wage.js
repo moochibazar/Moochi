@@ -96,7 +96,85 @@ async function calculatePaidWages(type){
 
 }
 
+async function getWagePaymentsList(type){
 
+    const wages =
+    await Sheet.getWages();
+
+
+    let html = "";
+
+
+    wages.data
+    .slice(1)
+    .forEach(wage=>{
+
+
+        const wageDate =
+        String(wage[3])
+        .trim()
+        .replace(/[۰-۹]/g, d => "۰۱۲۳۴۵۶۷۸۹".indexOf(d));
+
+
+        if(
+            wage[1] == type &&
+            wageDate >= wageFromDate &&
+            wageDate <= wageToDate
+        ){
+
+            html += `
+
+            <div class="card">
+
+            <p>
+            📅 تاریخ:
+            ${wage[3]}
+            </p>
+
+            <p>
+            💰 مبلغ:
+            ${Number(wage[2]).toLocaleString()}
+            تومان
+            </p>
+
+            <p>
+            📝 توضیحات:
+            ${wage[4] || "-"}
+            </p>
+
+            </div>
+
+            `;
+
+        }
+
+
+    });
+
+
+    return html;
+
+}
+
+window.saveWageFilter = function(){
+
+    wageFromDate =
+    document.getElementById("wageFromDate").value;
+
+    wageToDate =
+    document.getElementById("wageToDate").value;
+
+    if(!wageFromDate || !wageToDate){
+
+        alert("بازه تاریخ را انتخاب کنید");
+
+        return;
+
+    }
+
+    alert("بازه ذخیره شد");
+
+};
 
 
 // صفحه اصلی دستمزد
@@ -250,6 +328,9 @@ window.showWageOne = async function(){
     const remain =
     data.wageOne - paid;
 
+    const paymentsList =
+    await getWagePaymentsList("دستمزد یک");
+
 
 
     pageContent.innerHTML = `
@@ -289,6 +370,12 @@ window.showWageOne = async function(){
     ${remain.toLocaleString()} تومان
     </b>
     </p>
+
+    <h3>
+    لیست پرداخت‌ها
+    </h3>
+ 
+    ${paymentsList}
 
 
 
@@ -350,6 +437,9 @@ window.showWageTwo = async function(){
     const remain =
     data.wageTwo - paid;
 
+    const paymentsList =
+    await getWagePaymentsList("دستمزد دو");
+
 
 
     pageContent.innerHTML = `
@@ -389,6 +479,12 @@ window.showWageTwo = async function(){
     ${remain.toLocaleString()} تومان
     </b>
     </p>
+
+    <h3>
+    لیست پرداخت‌ها
+    </h3>
+
+${paymentsList}
 
 
 
