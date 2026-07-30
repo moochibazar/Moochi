@@ -1,6 +1,7 @@
 const WAGE_ONE = 5000;
 const WAGE_TWO = 10000;
 
+let wageOrderLimit = 5;
 
 // گرفتن تعداد کل موچی‌ها و محاسبه دستمزد
 
@@ -13,13 +14,17 @@ async function calculateWages(){
         let totalMochi = 0;
 
 
-        orders.data
-        .slice(1)
-        .forEach(order => {
+        const lastOrders =
+orders.data
+.slice(1)
+.slice(-wageOrderLimit);
 
-            totalMochi += Number(order[2]) || 0;
 
-        });
+lastOrders.forEach(order => {
+
+    totalMochi += Number(order[2]) || 0;
+
+});
 
 
         return {
@@ -69,7 +74,31 @@ pageContent.innerHTML = `
 
 <h2>💵 دستمزد</h2>
 
+<div class="card">
 
+<label>
+تعداد سفارش‌های آخر:
+</label>
+
+<div style="display:flex;gap:10px;align-items:center;justify-content:center;">
+
+<button onclick="decreaseWageOrders()">
+-
+</button>
+
+
+<h3 id="wageOrderCount">
+${wageOrderLimit}
+</h3>
+
+
+<button onclick="increaseWageOrders()">
++
+</button>
+
+</div>
+
+</div>
 
 <div class="card"
 onclick="showWageOne()">
@@ -223,5 +252,27 @@ ${data.wageTwo.toLocaleString()} تومان
 
 
 `;
+
+};
+
+window.increaseWageOrders = function(){
+
+    wageOrderLimit++;
+
+    showWagePage();
+
+};
+
+
+
+window.decreaseWageOrders = function(){
+
+    if(wageOrderLimit > 1){
+
+        wageOrderLimit--;
+
+    }
+
+    showWagePage();
 
 };
