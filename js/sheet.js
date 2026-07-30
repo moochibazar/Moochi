@@ -164,4 +164,40 @@ addPayment(customerName, amount, description) {
 
 }
 
+,
+
+// ---------- دستمزد ----------
+
+getWages(){
+
+    return api(
+        "read",
+        "Wages"
+    );
+
+},
+
+
+addWage(type, amount, date, description){
+
+    return api(
+        "write",
+        "Wages",
+        [
+
+            crypto.randomUUID(),
+
+            type,
+
+            Number(amount),
+
+            date,
+
+            description || ""
+
+        ]
+    );
+
+}
+    
 };
