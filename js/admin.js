@@ -1095,8 +1095,7 @@ customerOrders.forEach(order=>{
 
 <div class="card">
 
-<p>📅 تاریخ: ${String(order[5]).split(/[،,]/)[0].trim()}</p>
-
+<p>📅 تاریخ: ${String(order[5]).split("T")[0]}</p>
 <p>تعداد: ${order[2]}</p>
 
 <p>قیمت واحد: ${formatMoney(order[3])}</p>
@@ -1283,7 +1282,7 @@ html += `
 
 <p>
 📅 تاریخ:
-${String(payment[3]).split(/[،,]/)[0].trim()}
+${String(payment[3]).split("T")[0]}
 </p>
 
 <p>
