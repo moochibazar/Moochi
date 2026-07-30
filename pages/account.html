@@ -874,41 +874,29 @@ let orderHtml="";
 
 lastOrders.forEach(item=>{
 
+const orderDate = String(item[5]).split("T")[0].split(/[،,]/)[0].trim();
+
 orderHtml += `
 
 <div class="item">
 
 <h4>
-
-📅 ${item[5]}
-
+📅 ${orderDate}
 </h4>
 
 <p>
-
 تعداد :
 ${item[2]}
-
 </p>
 
 <p>
-
-قیمت واحد :
-${formatMoney(item[3])}
-
-</p>
-
-<p>
-
 مبلغ :
 ${formatMoney(item[4])}
-
 </p>
 
 </div>
 
 `;
-
 });
 
 if(orderHtml==""){
@@ -932,29 +920,24 @@ orderHtml;
     
   lastPayments.forEach(item=>{
 
+const paymentDate = String(item[3]).split("T")[0].split(/[،,]/)[0].trim();
+
 paymentHtml += `
 
 <div class="item">
 
 <h4>
-
-📅 ${item[3]}
-
+📅 ${paymentDate}
 </h4>
 
 <p>
-
 مبلغ :
 ${formatMoney(item[2])}
-
 </p>
 
 <p>
-
 توضیحات :
-
 ${item[4] || "-"}
-
 </p>
 
 </div>
