@@ -644,6 +644,16 @@ onclick="showPersonTurnover()">
 
 </div>
 
+<div class="card"
+onclick="showWagePage()">
+
+<h3>💵 دستمزد</h3>
+
+<p>
+محاسبه دستمزد موچی‌ها
+</p>
+
+</div>
 
 `;
 
