@@ -135,7 +135,18 @@ onclick="showWageTwo()">
 
 </div>
 
+<div class="card"
+onclick="showAddWagePage()">
 
+<h3>
+💰 ثبت پرداخت دستمزد
+</h3>
+
+<p>
+ثبت مبلغ پرداخت شده
+</p>
+
+</div>
 
 `;
 
@@ -274,5 +285,123 @@ window.decreaseWageOrders = function(){
     }
 
     showWagePage();
+
+};
+
+window.showAddWagePage = function(){
+
+const pageContent =
+document.getElementById("pageContent");
+
+
+pageContent.innerHTML = `
+
+
+<h2>💰 ثبت پرداخت دستمزد</h2>
+
+
+<div class="card">
+
+
+<select id="wageType">
+
+<option value="دستمزد یک">
+دستمزد یک
+</option>
+
+
+<option value="دستمزد دو">
+دستمزد دو
+</option>
+
+</select>
+
+
+
+<input
+id="wageAmount"
+type="number"
+placeholder="مبلغ پرداخت">
+
+
+
+<input
+id="wageDate"
+type="text"
+placeholder="تاریخ شمسی مثال: 1405/05/10">
+
+
+
+<input
+id="wageDescription"
+placeholder="توضیحات">
+
+
+<button onclick="saveWagePayment()">
+
+ثبت پرداخت
+
+</button>
+
+
+</div>
+
+
+`;
+
+};
+
+
+
+
+
+window.saveWagePayment = async function(){
+
+
+const type =
+document.getElementById("wageType").value;
+
+
+const amount =
+document.getElementById("wageAmount").value;
+
+
+const date =
+document.getElementById("wageDate").value;
+
+
+const description =
+document.getElementById("wageDescription").value;
+
+
+
+if(!amount || !date){
+
+alert("مبلغ و تاریخ را وارد کنید");
+
+return;
+
+}
+
+
+
+const result =
+await Sheet.addWage(
+type,
+amount,
+date,
+description
+);
+
+
+
+if(result.success){
+
+alert("پرداخت دستمزد ثبت شد ✅");
+
+showAddWagePage();
+
+}
+
 
 };
