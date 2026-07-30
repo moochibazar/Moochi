@@ -283,6 +283,22 @@ window.showWageOne = async function(){
 
     </div>
 
+    <div class="card">
+
+<button onclick="saveWageHtml(
+'دستمزد یک',
+${data.totalMochi},
+${data.wageOne},
+${paid},
+${remain}
+)">
+
+💾 ذخیره گزارش
+
+</button>
+
+</div>
+
 
     `;
 
@@ -382,6 +398,22 @@ window.showWageTwo = async function(){
     ⬅️ بازگشت
 
     </div>
+
+    <div class="card">
+
+<button onclick="saveWageHtml(
+'دستمزد دو',
+${data.totalMochi},
+${data.wageTwo},
+${paid},
+${remain}
+)">
+
+💾 ذخیره گزارش
+
+</button>
+
+</div>
 
 
     `;
@@ -522,5 +554,157 @@ window.saveWagePayment = async function(){
         alert("خطا در ثبت پرداخت");
 
     }
+
+};
+
+window.saveWageHtml = function(type,total,allSalary,paid,remain){
+
+const html = `
+
+<!DOCTYPE html>
+
+<html lang="fa" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>${type}</title>
+
+<style>
+
+body{
+
+font-family:tahoma;
+
+direction:rtl;
+
+background:#f5f5f5;
+
+padding:40px;
+
+}
+
+.container{
+
+max-width:700px;
+
+margin:auto;
+
+background:white;
+
+padding:30px;
+
+border-radius:15px;
+
+box-shadow:0 0 15px rgba(0,0,0,.1);
+
+}
+
+h1{
+
+text-align:center;
+
+}
+
+table{
+
+width:100%;
+
+border-collapse:collapse;
+
+margin-top:30px;
+
+}
+
+td{
+
+border:1px solid #ddd;
+
+padding:12px;
+
+}
+
+tr:nth-child(even){
+
+background:#fafafa;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>${type}</h1>
+
+<table>
+
+<tr>
+
+<td>تعداد موچی</td>
+
+<td>${total} عدد</td>
+
+</tr>
+
+<tr>
+
+<td>کل دستمزد</td>
+
+<td>${Number(allSalary).toLocaleString()} تومان</td>
+
+</tr>
+
+<tr>
+
+<td>پرداخت شده</td>
+
+<td>${Number(paid).toLocaleString()} تومان</td>
+
+</tr>
+
+<tr>
+
+<td><b>مانده</b></td>
+
+<td><b>${Number(remain).toLocaleString()} تومان</b></td>
+
+</tr>
+
+<tr>
+
+<td>تاریخ گزارش</td>
+
+<td>${new Date().toLocaleDateString("fa-IR")}</td>
+
+</tr>
+
+</table>
+
+</div>
+
+</body>
+
+</html>
+
+`;
+
+const blob = new Blob([html],{
+type:"text/html;charset=utf-8"
+});
+
+const a=document.createElement("a");
+
+a.href=URL.createObjectURL(blob);
+
+a.download=type+".html";
+
+a.click();
+
+URL.revokeObjectURL(a.href);
 
 };
