@@ -1281,10 +1281,7 @@ html += `
 
 <div class="card">
 
-<p>
-📅 تاریخ:
-${payment[3]}
-</p>
+${String(payment[3]).split(/[،,]/)[0].trim()}
 
 <p>
 مبلغ:
