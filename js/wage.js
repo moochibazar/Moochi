@@ -3,6 +3,15 @@ const WAGE_TWO = 10000;
 
 let wageFromDate = "";
 let wageToDate = "";
+function normalizeDate(date){
+
+    return String(date)
+    .trim()
+    .replace(/[۰-۹]/g, d => "۰۱۲۳۴۵۶۷۸۹".indexOf(d))
+    .replace(/\/(\d)\//g,"/0$1/")
+    .replace(/\/(\d)$/,"/0$1");
+
+}
 
 // محاسبه دستمزد
 
@@ -20,9 +29,7 @@ async function calculateWages(){
         .forEach(order=>{
 
             const orderDate =
-            String(order[5])
-            .trim()
-            .replace(/[۰-۹]/g, d => "۰۱۲۳۴۵۶۷۸۹".indexOf(d));
+            normalizeDate(order[5]);
             if(
                 wageFromDate &&
                 wageToDate &&
@@ -287,10 +294,14 @@ onclick="showAddWagePage()">
 window.saveWageFilter = function(){
 
     wageFromDate =
-    document.getElementById("wageFromDate").value;
+normalizeDate(
+document.getElementById("wageFromDate").value
+);
 
-    wageToDate =
-    document.getElementById("wageToDate").value;
+wageToDate =
+normalizeDate(
+document.getElementById("wageToDate").value
+);
 
     if(!wageFromDate || !wageToDate){
 
