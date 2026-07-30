@@ -4,91 +4,152 @@
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="viewport"
+content="width=device-width,initial-scale=1.0">
 
 <title>حساب مشتری | Mochi Bazar</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
 
 *{
+
 margin:0;
 padding:0;
 box-sizing:border-box;
 font-family:'Vazirmatn',sans-serif;
+
 }
 
 body{
 
 background:#050505;
 color:#fff;
-padding:20px;
+
 background-image:
-radial-gradient(circle at top,#2b2100 0%,#050505 55%);
+
+radial-gradient(circle at top,
+#3d2f00 0%,
+#050505 60%);
+
 }
 
 .container{
 
-max-width:850px;
+max-width:900px;
+
 margin:auto;
+
+padding:20px;
+
+}
+
+.header{
+
+text-align:center;
+
+margin-bottom:25px;
 
 }
 
 .logo{
 
-text-align:center;
-font-size:38px;
-font-weight:bold;
+font-size:42px;
+
 color:#d4af37;
+
+font-weight:bold;
+
 margin-top:10px;
 
 }
 
 .subtitle{
 
-text-align:center;
-color:#c9c9c9;
-margin-top:8px;
-margin-bottom:25px;
+margin-top:10px;
+
+color:#bfbfbf;
+
+font-size:15px;
 
 }
 
 .card{
 
-background:#111;
+background:#101010;
+
 border:1px solid rgba(212,175,55,.35);
+
 border-radius:18px;
+
 padding:18px;
+
 margin-bottom:18px;
+
 box-shadow:
-0 0 20px rgba(212,175,55,.08);
+
+0 0 25px rgba(212,175,55,.08);
+
+animation:show .35s;
+
+}
+
+@keyframes show{
+
+from{
+
+opacity:0;
+
+transform:translateY(20px);
+
+}
+
+to{
+
+opacity:1;
+
+transform:none;
+
+}
 
 }
 
 .customerName{
 
-font-size:28px;
+font-size:30px;
+
 font-weight:bold;
+
 color:#FFD700;
-margin-bottom:8px;
 
 }
 
 .customerCode{
 
-color:#aaa;
-font-size:15px;
+margin-top:8px;
+
+color:#999;
 
 }
 
 .filter{
 
 display:flex;
+
 justify-content:center;
+
 align-items:center;
-gap:12px;
-margin-top:10px;
+
+gap:10px;
+
+margin-top:5px;
+
 flex-wrap:wrap;
 
 }
@@ -96,32 +157,49 @@ flex-wrap:wrap;
 .circle{
 
 width:42px;
+
 height:42px;
+
 border-radius:50%;
-border:1px solid #d4af37;
-background:#1a1a1a;
+
+border:none;
+
+background:#1b1b1b;
+
 color:#FFD700;
+
 font-size:22px;
+
 cursor:pointer;
+
+transition:.25s;
 
 }
 
 .circle:hover{
 
-background:#d4af37;
+background:#FFD700;
+
 color:#000;
 
 }
 
 #limit{
 
-width:70px;
+width:80px;
+
 height:42px;
+
 text-align:center;
+
 border-radius:10px;
-border:1px solid #d4af37;
+
+border:1px solid #FFD700;
+
 background:#111;
+
 color:#FFD700;
+
 font-size:18px;
 
 }
@@ -129,52 +207,62 @@ font-size:18px;
 .showBtn{
 
 height:42px;
+
 padding:0 22px;
-border:none;
-border-radius:10px;
-background:#d4af37;
+
+background:#FFD700;
+
 color:#000;
+
+border:none;
+
+border-radius:10px;
+
 font-weight:bold;
+
 cursor:pointer;
-
-}
-
-.showBtn:hover{
-
-opacity:.9;
 
 }
 
 .summary{
 
 display:grid;
-grid-template-columns:repeat(2,1fr);
+
+grid-template-columns:
+
+repeat(2,1fr);
+
 gap:15px;
 
 }
 
-.smallCard{
+.box{
 
-background:#181818;
+background:#171717;
+
 padding:15px;
+
 border-radius:14px;
+
 border:1px solid rgba(212,175,55,.2);
 
 }
 
-.smallCard h3{
+.box h3{
 
-font-size:15px;
+font-size:14px;
+
 color:#bbb;
+
 margin-bottom:10px;
 
 }
 
 .value{
 
-font-size:24px;
+font-size:25px;
+
 font-weight:bold;
-color:#fff;
 
 }
 
@@ -186,66 +274,60 @@ text-align:center;
 
 .balance .value{
 
-font-size:34px;
+font-size:36px;
+
+margin-top:10px;
 
 }
 
-.balance.green{
+.green{
 
-color:#1ed760;
+color:#32d74b;
 
 }
 
-.balance.red{
+.red{
 
-color:#ff4c4c;
+color:#ff453a;
 
 }
 
 .sectionTitle{
 
-font-size:22px;
+font-size:23px;
+
 color:#FFD700;
+
 margin-bottom:15px;
-
-}
-
-#orders{
-
-display:flex;
-flex-direction:column;
-gap:12px;
-
-}
-
-#payments{
-
-display:flex;
-flex-direction:column;
-gap:12px;
 
 }
 
 .item{
 
-background:#161616;
-border:1px solid rgba(212,175,55,.2);
-border-radius:14px;
+background:#181818;
+
 padding:15px;
+
+border-radius:14px;
+
+border:1px solid rgba(212,175,55,.15);
+
+margin-bottom:12px;
 
 }
 
-.itemTitle{
+.item h4{
 
-font-size:18px;
 color:#FFD700;
-margin-bottom:8px;
+
+margin-bottom:10px;
 
 }
 
 .item p{
 
-margin:5px 0;
+margin:6px 0;
+
 color:#ddd;
 
 }
@@ -253,20 +335,29 @@ color:#ddd;
 .loading{
 
 display:flex;
+
 flex-direction:column;
+
 align-items:center;
+
 justify-content:center;
-padding:60px;
+
+padding:50px;
 
 }
 
 .spinner{
 
 width:55px;
+
 height:55px;
+
 border-radius:50%;
+
 border:5px solid #333;
+
 border-top-color:#FFD700;
+
 animation:spin .8s linear infinite;
 
 }
@@ -283,10 +374,13 @@ transform:rotate(360deg);
 
 .footer{
 
+margin:35px 0 15px;
+
 text-align:center;
-margin:40px 0 10px;
-color:#777;
-font-size:14px;
+
+color:#666;
+
+font-size:13px;
 
 }
 
@@ -298,15 +392,15 @@ grid-template-columns:1fr;
 
 }
 
-.customerName{
+.logo{
 
-font-size:24px;
+font-size:34px;
 
 }
 
-.logo{
+.customerName{
 
-font-size:32px;
+font-size:24px;
 
 }
 
@@ -320,23 +414,35 @@ font-size:32px;
 
 <div class="container">
 
+<div class="header">
+
 <div class="logo">
+
 🍡 MOCHI BAZAR
+
 </div>
 
 <div class="subtitle">
-حساب اختصاصی مشتری
+
+سامانه مشاهده حساب مشتری
+
+</div>
+
 </div>
 
 <div class="card">
 
-<div class="customerName" id="customerName">
+<div
+id="customerName"
+class="customerName">
+
 در حال بارگذاری...
+
 </div>
 
-<div class="customerCode" id="customerCode">
-
-کد مشتری:
+<div
+id="customerCode"
+class="customerCode">
 
 </div>
 
@@ -346,8 +452,12 @@ font-size:32px;
 
 <div class="filter">
 
-<button class="circle" id="minus">
+<button
+id="minus"
+class="circle">
+
 −
+
 </button>
 
 <input
@@ -356,13 +466,17 @@ type="number"
 value="30"
 min="1">
 
-<button class="circle" id="plus">
+<button
+id="plus"
+class="circle">
+
 +
+
 </button>
 
 <button
-class="showBtn"
-id="reload">
+id="reload"
+class="showBtn">
 
 نمایش
 
@@ -375,14 +489,16 @@ id="reload">
 <div class="card balance">
 
 <h2>
+
 مانده حساب
+
 </h2>
 
 <div
-class="value"
-id="balance">
+id="balance"
+class="value">
 
-0 تومان
+۰ تومان
 
 </div>
 
@@ -390,65 +506,73 @@ id="balance">
 
 <div class="summary">
 
-<div class="smallCard">
+<div class="box">
 
 <h3>
+
 جمع خرید
+
 </h3>
 
 <div
-class="value"
-id="totalSales">
+id="totalSales"
+class="value">
 
-0
-
-</div>
+۰
 
 </div>
 
-<div class="smallCard">
+</div>
+
+<div class="box">
 
 <h3>
+
 جمع پرداخت
+
 </h3>
 
 <div
-class="value"
-id="totalPayments">
+id="totalPayments"
+class="value">
 
-0
-
-</div>
+۰
 
 </div>
 
-<div class="smallCard">
+</div>
+
+<div class="box">
 
 <h3>
-مجموع تعداد سفارش
+
+تعداد سفارش
+
 </h3>
 
 <div
-class="value"
-id="totalQty">
+id="totalQty"
+class="value">
 
-0
-
-</div>
+۰
 
 </div>
 
-<div class="smallCard">
+</div>
+
+<div class="box">
 
 <h3>
+
 تعداد پرداخت
+
 </h3>
 
 <div
-class="value"
-id="paymentCount">
+id="paymentCount"
+class="value">
 
-0
+۰
 
 </div>
 
@@ -514,9 +638,388 @@ id="paymentCount">
 
 </div>
 
+<script src="../config.js"></script>
+<script src="../api.js"></script>
+<script src="../sheet.js"></script>
+
+<script>
+
+const params = new URLSearchParams(location.search);
+
+const customerCode = params.get("code");
+
+let customer = null;
+
+let limit = 30;
+
+function formatMoney(number){
+
+    return Number(number)
+    .toLocaleString("en-US") + " تومان";
+
+}
+
+function showLoading(){
+
+document.getElementById("orders").innerHTML=`
+
+<div class="loading">
+
+<div class="spinner"></div>
+
+<p style="margin-top:15px">
+
+در حال بارگذاری...
+
+</p>
+
 </div>
 
-<!-- بخش دوم اینجا اضافه خواهد شد -->
+`;
+
+document.getElementById("payments").innerHTML=`
+
+<div class="loading">
+
+<div class="spinner"></div>
+
+<p style="margin-top:15px">
+
+در حال بارگذاری...
+
+</p>
+
+</div>
+
+`;
+
+}
+
+async function loadCustomer(){
+
+showLoading();
+
+const result =
+await Sheet.getCustomers();
+
+if(!result.success){
+
+alert("خطا در دریافت اطلاعات");
+
+return;
+
+}
+
+customer =
+result.data
+.slice(1)
+.find(item=>item[2]==customerCode);
+
+if(!customer){
+
+document.body.innerHTML=`
+
+<div style="
+
+height:100vh;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+font-size:25px;
+
+background:#000;
+
+color:#fff;
+
+">
+
+مشتری پیدا نشد
+
+</div>
+
+`;
+
+return;
+
+}
+
+document.getElementById("customerName").innerText =
+customer[1];
+
+document.getElementById("customerCode").innerText =
+"کد مشتری : " + customer[2];
+
+loadData();
+
+}
+
+document.getElementById("plus").onclick=()=>{
+
+let input =
+document.getElementById("limit");
+
+input.value =
+Number(input.value)+1;
+
+};
+
+document.getElementById("minus").onclick=()=>{
+
+let input =
+document.getElementById("limit");
+
+if(Number(input.value)>1){
+
+input.value =
+Number(input.value)-1;
+
+}
+
+};
+
+document.getElementById("reload").onclick=()=>{
+
+limit =
+Number(document.getElementById("limit").value);
+
+showLoading();
+
+loadData();
+
+};
+
+  async function loadData(){
+
+const ordersResult =
+await Sheet.getOrders();
+
+const paymentsResult =
+await Sheet.getPayments();
+
+const orders =
+ordersResult.data
+.slice(1)
+.filter(item=>item[1]==customer[1]);
+
+const payments =
+paymentsResult.data
+.slice(1)
+.filter(item=>item[1]==customer[1]);
+
+let totalSales=0;
+
+let totalPayments=0;
+
+let totalQty=0;
+
+orders.forEach(item=>{
+
+totalSales += Number(item[4])||0;
+
+totalQty += Number(item[2])||0;
+
+});
+
+payments.forEach(item=>{
+
+totalPayments += Number(item[2])||0;
+
+});
+
+document.getElementById("totalSales").innerText =
+formatMoney(totalSales);
+
+document.getElementById("totalPayments").innerText =
+formatMoney(totalPayments);
+
+document.getElementById("totalQty").innerText =
+totalQty;
+
+document.getElementById("paymentCount").innerText =
+payments.length;
+
+const balance =
+totalSales-totalPayments;
+
+const balanceBox =
+document.getElementById("balance");
+
+balanceBox.innerText =
+formatMoney(Math.abs(balance));
+
+balanceBox.classList.remove("green");
+balanceBox.classList.remove("red");
+
+if(balance>0){
+
+balanceBox.classList.add("red");
+
+}else{
+
+balanceBox.classList.add("green");
+
+}
+
+const lastOrders =
+orders.slice(-limit);
+
+const lastPayments =
+payments.slice(-limit);
+
+let orderHtml="";
+
+lastOrders.forEach(item=>{
+
+orderHtml += `
+
+<div class="item">
+
+<h4>
+
+📅 ${item[5]}
+
+</h4>
+
+<p>
+
+تعداد :
+${item[2]}
+
+</p>
+
+<p>
+
+قیمت واحد :
+${formatMoney(item[3])}
+
+</p>
+
+<p>
+
+مبلغ :
+${formatMoney(item[4])}
+
+</p>
+
+</div>
+
+`;
+
+});
+
+if(orderHtml==""){
+
+orderHtml=`
+
+<div class="item">
+
+سفارشی وجود ندارد
+
+</div>
+
+`;
+
+}
+
+document.getElementById("orders").innerHTML =
+orderHtml;
+
+  let paymentHtml = "";
+    
+  lastPayments.forEach(item=>{
+
+paymentHtml += `
+
+<div class="item">
+
+<h4>
+
+📅 ${item[3]}
+
+</h4>
+
+<p>
+
+مبلغ :
+${formatMoney(item[2])}
+
+</p>
+
+<p>
+
+توضیحات :
+
+${item[4] || "-"}
+
+</p>
+
+</div>
+
+`;
+
+});
+
+if(paymentHtml==""){
+
+paymentHtml=`
+
+<div class="item">
+
+پرداختی وجود ندارد
+
+</div>
+
+`;
+
+}
+
+document.getElementById("payments").innerHTML =
+paymentHtml;
+
+let title="";
+
+if(balance>0){
+
+title="بدهکار";
+
+}else if(balance<0){
+
+title="بستانکار";
+
+}else{
+
+title="تسویه";
+
+}
+
+document.getElementById("balance").innerHTML =
+
+`
+
+${formatMoney(Math.abs(balance))}
+
+<br>
+
+<span style="font-size:18px">
+
+${title}
+
+</span>
+
+`;
+
+}
+
+loadCustomer();
+
+</script>
+
+</div>
 
 </body>
+
 </html>
