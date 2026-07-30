@@ -163,7 +163,7 @@ addPayment(customerName, amount, description) {
 
             Number(amount),
 
-            getPersianDate()
+            getPersianDate(),
 
             description || ""
 
