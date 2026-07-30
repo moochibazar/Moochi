@@ -20,8 +20,9 @@ async function calculateWages(){
         .forEach(order=>{
 
             const orderDate =
-            String(order[5]).split(",")[0].trim();
-
+            String(order[5])
+            .trim()
+            .replace(/[۰-۹]/g, d => "۰۱۲۳۴۵۶۷۸۹".indexOf(d));
             if(
                 wageFromDate &&
                 wageToDate &&
