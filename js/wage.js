@@ -29,8 +29,10 @@ async function calculateWages(){
         .forEach(order=>{
 
             const orderDate =
-normalizeDate(order[5]);
-
+String(order[5])
+.split(",")[0]
+.trim()
+.replace(/[۰-۹]/g, d => "۰۱۲۳۴۵۶۷۸۹".indexOf(d));
 console.log("تاریخ سفارش:", order[5], "تبدیل شده:", orderDate);
 console.log("از:", wageFromDate, "تا:", wageToDate);
             if(
@@ -297,14 +299,12 @@ onclick="showAddWagePage()">
 window.saveWageFilter = function(){
 
     wageFromDate =
-normalizeDate(
 document.getElementById("wageFromDate").value
-);
+.trim();
 
 wageToDate =
-normalizeDate(
 document.getElementById("wageToDate").value
-);
+.trim();
 
     if(!wageFromDate || !wageToDate){
 
