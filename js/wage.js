@@ -1,38 +1,42 @@
 const WAGE_ONE = 5000;
 const WAGE_TWO = 10000;
 
-let wageOrderLimit = 5;
-
+let wageFromDate = "";
+let wageToDate = "";
 
 // محاسبه دستمزد
 
 async function calculateWages(){
 
-    try {
+    try{
 
         const orders =
         await Sheet.getOrders();
 
-
         let totalMochi = 0;
 
-
-        const lastOrders =
         orders.data
         .slice(1)
-        .slice(-wageOrderLimit);
+        .forEach(order=>{
 
+            const orderDate =
+            String(order[5]).split(",")[0].trim();
 
+            if(
+                wageFromDate &&
+                wageToDate &&
+                orderDate >= wageFromDate &&
+                orderDate <= wageToDate
+            ){
 
-        lastOrders.forEach(order=>{
+                totalMochi +=
+                Number(order[2]) || 0;
 
-            totalMochi += Number(order[2]) || 0;
+            }
 
         });
 
-
-
-        return {
+        return{
 
             totalMochi,
 
@@ -44,17 +48,14 @@ async function calculateWages(){
 
         };
 
-
-    } catch(error){
+    }catch(error){
 
         console.error(error);
 
-        return {
+        return{
 
             totalMochi:0,
-
             wageOne:0,
-
             wageTwo:0
 
         };
@@ -115,32 +116,31 @@ pageContent.innerHTML = `
 
 
 <div class="card">
+<div class="card">
 
-<label>
-تعداد سفارش‌های آخر:
-</label>
+<label>از تاریخ</label>
 
+<input
+id="wageFromDate"
+type="text"
+placeholder="1405/05/01"
+value="${wageFromDate}">
 
-<div style="display:flex;gap:10px;justify-content:center;align-items:center;">
+<label style="margin-top:15px;">تا تاریخ</label>
 
+<input
+id="wageToDate"
+type="text"
+placeholder="1405/05/31"
+value="${wageToDate}">
 
-<button onclick="decreaseWageOrders()">
--
+<br><br>
+
+<button onclick="saveWageFilter()">
+
+🔍 نمایش
+
 </button>
-
-
-<h3>
-${wageOrderLimit}
-</h3>
-
-
-<button onclick="increaseWageOrders()">
-+
-</button>
-
-
-</div>
-
 
 </div>
 
@@ -192,6 +192,26 @@ onclick="showAddWagePage()">
 
 
 `;
+
+};
+
+window.saveWageFilter = function(){
+
+    wageFromDate =
+    document.getElementById("wageFromDate").value;
+
+    wageToDate =
+    document.getElementById("wageToDate").value;
+
+    if(!wageFromDate || !wageToDate){
+
+        alert("بازه تاریخ را انتخاب کنید");
+
+        return;
+
+    }
+
+    alert("بازه ذخیره شد");
 
 };
 
