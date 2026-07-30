@@ -580,7 +580,7 @@ window.saveWageHtml = async function(type){
 
             rows += `
             <tr>
-                <td>${w[3]}</td>
+                <td>${String(w[3]).split(",")[0]}</td>
                 <td>${Number(w[2]).toLocaleString()}</td>
                 <td>${w[4]||"-"}</td>
             </tr>
