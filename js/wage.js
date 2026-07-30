@@ -1,28 +1,227 @@
 const WAGE_ONE = 5000;
 const WAGE_TWO = 10000;
 
-async function calculateWages() {
+
+// گرفتن تعداد کل موچی‌ها و محاسبه دستمزد
+
+async function calculateWages(){
+
     try {
+
         const orders = await Sheet.getOrders();
 
         let totalMochi = 0;
 
-        orders.forEach(order => {
-            const qty = Number(order.quantity || order.qty || order.count || 0);
-            totalMochi += qty;
+
+        orders.data
+        .slice(1)
+        .forEach(order => {
+
+            totalMochi += Number(order[2]) || 0;
+
         });
 
+
         return {
-            totalMochi,
+
+            totalMochi: totalMochi,
+
             wageOne: totalMochi * WAGE_ONE,
+
             wageTwo: totalMochi * WAGE_TWO
+
         };
-    } catch (err) {
-        console.error(err);
+
+
+    } catch(error){
+
+        console.error(error);
+
         return {
-            totalMochi: 0,
-            wageOne: 0,
-            wageTwo: 0
+
+            totalMochi:0,
+
+            wageOne:0,
+
+            wageTwo:0
+
         };
+
     }
+
 }
+
+
+
+
+// صفحه اصلی دستمزد
+
+window.showWagePage = function(){
+
+
+const pageContent =
+document.getElementById("pageContent");
+
+
+
+pageContent.innerHTML = `
+
+
+<h2>💵 دستمزد</h2>
+
+
+
+<div class="card"
+onclick="showWageOne()">
+
+
+<h3>
+دستمزد یک
+</h3>
+
+
+<p>
+۵۰۰۰ تومان برای هر موچی
+</p>
+
+
+</div>
+
+
+
+
+<div class="card"
+onclick="showWageTwo()">
+
+
+<h3>
+دستمزد دو
+</h3>
+
+
+<p>
+۱۰۰۰۰ تومان برای هر موچی
+</p>
+
+
+</div>
+
+
+
+`;
+
+};
+
+
+
+
+
+
+// نمایش دستمزد یک
+
+window.showWageOne = async function(){
+
+
+const pageContent =
+document.getElementById("pageContent");
+
+
+const data =
+await calculateWages();
+
+
+
+pageContent.innerHTML = `
+
+
+<h2>💵 دستمزد یک</h2>
+
+
+
+<div class="card">
+
+
+<h3>
+تعداد کل موچی فروخته شده
+</h3>
+
+
+<p>
+${data.totalMochi} عدد
+</p>
+
+
+<h3>
+مبلغ دستمزد
+</h3>
+
+
+<p>
+${data.wageOne.toLocaleString()} تومان
+</p>
+
+
+
+</div>
+
+
+`;
+
+};
+
+
+
+
+
+
+// نمایش دستمزد دو
+
+window.showWageTwo = async function(){
+
+
+const pageContent =
+document.getElementById("pageContent");
+
+
+const data =
+await calculateWages();
+
+
+
+pageContent.innerHTML = `
+
+
+<h2>💵 دستمزد دو</h2>
+
+
+
+<div class="card">
+
+
+<h3>
+تعداد کل موچی فروخته شده
+</h3>
+
+
+<p>
+${data.totalMochi} عدد
+</p>
+
+
+<h3>
+مبلغ دستمزد
+</h3>
+
+
+<p>
+${data.wageTwo.toLocaleString()} تومان
+</p>
+
+
+
+</div>
+
+
+`;
+
+};
