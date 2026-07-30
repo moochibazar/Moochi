@@ -557,9 +557,45 @@ window.saveWagePayment = async function(){
 
 };
 
-window.saveWageHtml = function(type,total,allSalary,paid,remain){
+window.saveWageHtml = async function(type){
 
-const html = `
+    const data = await calculateWages();
+
+    const paid = await calculatePaidWages(type);
+
+    const remain =
+        (type=="دستمزد یک" ? data.wageOne : data.wageTwo)
+        - paid;
+
+    const wages =
+    await Sheet.getWages();
+
+    let rows="";
+
+    wages.data
+    .slice(1)
+    .forEach(w=>{
+
+        if(w[1]==type){
+
+            rows += `
+            <tr>
+                <td>${w[3]}</td>
+                <td>${Number(w[2]).toLocaleString()}</td>
+                <td>${w[4]||"-"}</td>
+            </tr>
+            `;
+
+        }
+
+    });
+
+    const total =
+    type=="دستمزد یک"
+    ? data.wageOne
+    : data.wageTwo;
+
+    const html=`
 
 <!DOCTYPE html>
 
@@ -569,7 +605,7 @@ const html = `
 
 <meta charset="UTF-8">
 
-<title>${type}</title>
+<title>گزارش دستمزد</title>
 
 <style>
 
@@ -577,33 +613,81 @@ body{
 
 font-family:tahoma;
 
-direction:rtl;
-
-background:#f5f5f5;
+background:#faf8ff;
 
 padding:40px;
+
+color:#444;
 
 }
 
 .container{
 
-max-width:700px;
+max-width:850px;
 
 margin:auto;
 
 background:white;
 
+border-radius:20px;
+
 padding:30px;
 
-border-radius:15px;
-
-box-shadow:0 0 15px rgba(0,0,0,.1);
+box-shadow:0 5px 20px rgba(0,0,0,.1);
 
 }
 
 h1{
 
 text-align:center;
+
+color:#7b5cff;
+
+margin-bottom:30px;
+
+}
+
+.cards{
+
+display:grid;
+
+grid-template-columns:repeat(3,1fr);
+
+gap:15px;
+
+margin-bottom:30px;
+
+}
+
+.card{
+
+padding:18px;
+
+border-radius:15px;
+
+text-align:center;
+
+font-size:18px;
+
+}
+
+.c1{background:#ffe8ef;}
+
+.c2{background:#e8fff0;}
+
+.c3{background:#fff8d9;}
+
+.card h3{
+
+margin:0 0 10px;
+
+font-size:16px;
+
+}
+
+.card b{
+
+font-size:24px;
 
 }
 
@@ -613,21 +697,55 @@ width:100%;
 
 border-collapse:collapse;
 
-margin-top:30px;
+margin-top:20px;
 
 }
 
-td{
+th{
 
-border:1px solid #ddd;
+background:#d9d7ff;
 
 padding:12px;
 
 }
 
-tr:nth-child(even){
+td{
 
-background:#fafafa;
+padding:10px;
+
+border-bottom:1px solid #eee;
+
+text-align:center;
+
+}
+
+.footer{
+
+margin-top:30px;
+
+text-align:center;
+
+font-size:13px;
+
+color:#888;
+
+}
+
+@media print{
+
+body{
+
+background:white;
+
+padding:0;
+
+}
+
+.container{
+
+box-shadow:none;
+
+}
 
 }
 
@@ -641,49 +759,57 @@ background:#fafafa;
 
 <h1>${type}</h1>
 
+<div class="cards">
+
+<div class="card c1">
+
+<h3>تعداد موچی</h3>
+
+<b>${data.totalMochi}</b>
+
+</div>
+
+<div class="card c2">
+
+<h3>کل دستمزد</h3>
+
+<b>${total.toLocaleString()}</b>
+
+</div>
+
+<div class="card c3">
+
+<h3>مانده</h3>
+
+<b>${remain.toLocaleString()}</b>
+
+</div>
+
+</div>
+
+<h2>پرداخت‌های ثبت شده</h2>
+
 <table>
 
 <tr>
 
-<td>تعداد موچی</td>
+<th>تاریخ پرداخت</th>
 
-<td>${total} عدد</td>
+<th>مبلغ</th>
 
-</tr>
-
-<tr>
-
-<td>کل دستمزد</td>
-
-<td>${Number(allSalary).toLocaleString()} تومان</td>
+<th>توضیحات</th>
 
 </tr>
 
-<tr>
-
-<td>پرداخت شده</td>
-
-<td>${Number(paid).toLocaleString()} تومان</td>
-
-</tr>
-
-<tr>
-
-<td><b>مانده</b></td>
-
-<td><b>${Number(remain).toLocaleString()} تومان</b></td>
-
-</tr>
-
-<tr>
-
-<td>تاریخ گزارش</td>
-
-<td>${new Date().toLocaleDateString("fa-IR")}</td>
-
-</tr>
+${rows}
 
 </table>
+
+<div class="footer">
+
+گزارش دستمزد تولید
+
+</div>
 
 </div>
 
@@ -693,18 +819,18 @@ background:#fafafa;
 
 `;
 
-const blob = new Blob([html],{
-type:"text/html;charset=utf-8"
-});
+    const blob=new Blob([html],{type:"text/html;charset=utf-8"});
 
-const a=document.createElement("a");
+    const url=URL.createObjectURL(blob);
 
-a.href=URL.createObjectURL(blob);
+    const a=document.createElement("a");
 
-a.download=type+".html";
+    a.href=url;
 
-a.click();
+    a.download=type+".html";
 
-URL.revokeObjectURL(a.href);
+    a.click();
+
+    URL.revokeObjectURL(url);
 
 };
