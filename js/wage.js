@@ -29,7 +29,10 @@ async function calculateWages(){
         .forEach(order=>{
 
             const orderDate =
-            normalizeDate(order[5]);
+normalizeDate(order[5]);
+
+console.log("تاریخ سفارش:", order[5], "تبدیل شده:", orderDate);
+console.log("از:", wageFromDate, "تا:", wageToDate);
             if(
                 wageFromDate &&
                 wageToDate &&
