@@ -883,8 +883,8 @@ orders.forEach(item=>{
 
     transactions.push({
 
-        date:item[5],
-
+        date:new Date(item[5]),
+      
         qty:Number(item[2])||0,
 
         sale:Number(item[4])||0,
@@ -899,7 +899,7 @@ payments.forEach(item=>{
 
     transactions.push({
 
-        date:item[3],
+        date:new Date(item[3]),
         qty:0,
 
         sale:0,
@@ -952,7 +952,7 @@ html += `
 
 <tr>
 
-<td>${item.date}</td>
+<td>${new Intl.DateTimeFormat('fa-IR').format(item.date)}</td>
 
 <td>${item.qty || "-"}</td>
 
