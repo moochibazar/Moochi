@@ -457,28 +457,24 @@ background:#181818;
   .historyTable th:nth-child(1),
 .h.historyTable th:nth-child(1),
 .historyTable td:nth-child(1){
-width:28%;
+width:30%;
 }
 
 .historyTable th:nth-child(2),
 .historyTable td:nth-child(2){
-width:12%;
+width:15%;
 }
 
 .historyTable th:nth-child(3),
 .historyTable td:nth-child(3){
-width:22%;
+width:27%;
 }
 
 .historyTable th:nth-child(4),
 .historyTable td:nth-child(4){
-width:22%;
+width:28%;
 }
 
-.historyTable th:nth-child(5),
-.historyTable td:nth-child(5){
-width:16%;
-}
                 
 </style>
 
@@ -675,7 +671,6 @@ class="value">
 <th>تعداد سفارش</th>
 <th>مبلغ قابل پرداخت</th>
 <th>مبلغ دریافتی</th>
-<th>مانده</th>
 
 </tr>
 
@@ -1000,6 +995,8 @@ merged.slice(0,limit).forEach(item=>{
 
 html += `
 
+html += `
+
 <tr>
 
 <td>${item.date.toISOString().split("T")[0].replace(/-/g,"/")}</td>
@@ -1009,8 +1006,6 @@ html += `
 <td>${item.sale ? formatMoney(item.sale) : "-"}</td>
 
 <td>${item.payment ? formatMoney(item.payment) : "-"}</td>
-
-<td>${formatMoney(item.balance)}</td>
 
 </tr>
 
@@ -1027,7 +1022,7 @@ html = `
 
 <tr>
 
-<td colspan="5">
+<td colspan="4">
 
 اطلاعاتی وجود ندارد
 
