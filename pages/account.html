@@ -579,7 +579,7 @@ class="value">
 
 <h3>
 
-جمع خرید
+خرید ماه اخیر
 
 </h3>
 
@@ -597,7 +597,7 @@ class="value">
 
 <h3>
 
-جمع پرداخت
+پرداخت ماه اخیر
 
 </h3>
 
@@ -615,7 +615,7 @@ class="value">
 
 <h3>
 
-تعداد سفارش
+سفارش ماه اخیر
 
 </h3>
 
@@ -633,7 +633,7 @@ class="value">
 
 <h3>
 
-تعداد پرداخت
+پرداخت‌های ماه اخیر
 
 </h3>
 
@@ -849,23 +849,34 @@ paymentsResult.data
 .slice(1)
 .filter(item=>item[1]==customer[1]);
 
+const oneMonthAgo = new Date();
+oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+
+const recentOrders = orders.filter(item =>
+    new Date(item[5]) >= oneMonthAgo
+);
+
+const recentPayments = payments.filter(item =>
+    new Date(item[3]) >= oneMonthAgo
+);
+
 let totalSales=0;
 
 let totalPayments=0;
 
 let totalQty=0;
 
-orders.forEach(item=>{
+recentOrders.forEach(item=>{
 
-totalSales += Number(item[4])||0;
+    totalSales += Number(item[4]) || 0;
 
-totalQty += Number(item[2])||0;
+    totalQty += Number(item[2]) || 0;
 
 });
 
-payments.forEach(item=>{
+recentPayments.forEach(item=>{
 
-totalPayments += Number(item[2])||0;
+    totalPayments += Number(item[2]) || 0;
 
 });
 
@@ -879,7 +890,7 @@ document.getElementById("totalQty").innerText =
 totalQty;
 
 document.getElementById("paymentCount").innerText =
-payments.length;
+recentPayments.length;
 
 const balance =
 totalSales-totalPayments;
