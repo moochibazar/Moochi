@@ -916,28 +916,46 @@ payments.forEach(item=>{
 
 // اول قدیمی به جدید مرتب می‌کنیم
 transactions.sort((a,b)=>{
+const daily = {};
 
-    if(a.date.getTime() !== b.date.getTime()){
+transactions.forEach(item=>{
 
-        return a.date - b.date;
+    const key = item.date.toISOString().split("T")[0];
 
-    }
+    if(!daily[key]){
 
-    if(a.type === "order" && b.type === "payment"){
-
-        return -1;
-
-    }
-
-    if(a.type === "payment" && b.type === "order"){
-
-        return 1;
+        daily[key]={
+            date:item.date,
+            qty:0,
+            sale:0,
+            payment:0
+        };
 
     }
 
-    return 0;
+    daily[key].qty += item.qty;
+    daily[key].sale += item.sale;
+    daily[key].payment += item.payment;
 
 });
+
+const merged = Object.values(daily);
+
+merged.sort((a,b)=>a.date-b.date);
+
+let runningBalance = 0;
+
+merged.forEach(item=>{
+
+    runningBalance += item.sale;
+    runningBalance -= item.payment;
+
+    item.balance = runningBalance;
+
+});
+
+merged.reverse();
+  
 let runningBalance = 0;
 
 
@@ -959,7 +977,7 @@ transactions.reverse();
 let html = "";
 
 
-transactions.slice(0,limit).forEach(item=>{
+merged.slice(0,limit).forEach(item=>{
 
 html += `
 
