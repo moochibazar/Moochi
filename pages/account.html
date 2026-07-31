@@ -883,7 +883,7 @@ orders.forEach(item=>{
 
     transactions.push({
 
-        date:new Date(item[5]),
+        date:item[5],
 
         qty:Number(item[2])||0,
 
@@ -899,8 +899,7 @@ payments.forEach(item=>{
 
     transactions.push({
 
-        date:new Date(item[3]),
-
+        date:item[3],
         qty:0,
 
         sale:0,
@@ -912,8 +911,19 @@ payments.forEach(item=>{
 });
 
 // اول قدیمی به جدید مرتب می‌کنیم
-transactions.sort((a,b)=>a.date-b.date);
+transactions.sort((a,b)=>{
 
+    let da = a.date.split("/").map(Number);
+    let db = b.date.split("/").map(Number);
+
+    return (
+        da[0]*10000 + da[1]*100 + da[2]
+    ) -
+    (
+        db[0]*10000 + db[1]*100 + db[2]
+    );
+
+});
 
 let runningBalance = 0;
 
@@ -942,7 +952,7 @@ html += `
 
 <tr>
 
-<td>${item.date.toLocaleDateString("fa-IR")}</td>
+<td>${item.date}</td>
 
 <td>${item.qty || "-"}</td>
 
