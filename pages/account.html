@@ -883,15 +883,17 @@ orders.forEach(item=>{
 
     transactions.push({
 
-        date:new Date(item[5]),
-      
-        qty:Number(item[2])||0,
+    type:"order",
 
-        sale:Number(item[4])||0,
+    date:new Date(item[5]),
 
-        payment:0
+    qty:Number(item[2])||0,
 
-    });
+    sale:Number(item[4])||0,
+
+    payment:0
+
+});
 
 });
 
@@ -899,15 +901,17 @@ payments.forEach(item=>{
 
     transactions.push({
 
-        date:new Date(item[3]),
-        qty:0,
+    type:"payment",
 
-        sale:0,
+    date:new Date(item[3]),
 
-        payment:Number(item[2])||0
+    qty:0,
 
-    });
+    sale:0,
 
+    payment:Number(item[2])||0
+
+});
 });
 
 // اول قدیمی به جدید مرتب می‌کنیم
@@ -957,26 +961,8 @@ html += `
 });
 
 
-if(html===""){
-
-html = `
-
-<tr>
-
-<td colspan="5">
-
-اطلاعاتی وجود ندارد
-
-</td>
-
-</tr>
-
-`;
-
-}
 
 
-document.getElementById("historyBody").innerHTML = html;
 if(html===""){
 
 html = `
