@@ -852,13 +852,9 @@ paymentsResult.data
 const oneMonthAgo = new Date();
 oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
 
-const recentOrders = orders.filter(item =>
-    new Date(item[5]) >= oneMonthAgo
-);
+const recentOrders = orders;
 
-const recentPayments = payments.filter(item =>
-    new Date(item[3]) >= oneMonthAgo
-);
+const recentPayments = payments;
 
 let totalSales=0;
 
