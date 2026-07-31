@@ -911,19 +911,7 @@ payments.forEach(item=>{
 });
 
 // اول قدیمی به جدید مرتب می‌کنیم
-transactions.sort((a,b)=>{
-
-    let da = a.date.split("/").map(Number);
-    let db = b.date.split("/").map(Number);
-
-    return (
-        da[0]*10000 + da[1]*100 + da[2]
-    ) -
-    (
-        db[0]*10000 + db[1]*100 + db[2]
-    );
-
-});
+transactions.sort((a,b)=>a.date-b.date);
 
 let runningBalance = 0;
 
