@@ -941,15 +941,34 @@ payments.forEach(item=>{
 
 });
 
-transactions.sort((a,b)=>b.date-a.date);
+// اول قدیمی به جدید مرتب می‌کنیم
+transactions.sort((a,b)=>a.date-b.date);
 
-let currentBalance = totalSales-totalPayments;
+
+let runningBalance = 0;
+
+
+// مانده را برای هر تراکنش ذخیره می‌کنیم
+transactions.forEach(item=>{
+
+    runningBalance += item.sale;
+    runningBalance -= item.payment;
+
+    item.balance = runningBalance;
+
+});
+
+
+// برای نمایش، جدید به قدیم
+transactions.reverse();
+
 
 let html = "";
 
+
 transactions.slice(0,limit).forEach(item=>{
 
-    html += `
+html += `
 
 <tr>
 
@@ -961,18 +980,35 @@ transactions.slice(0,limit).forEach(item=>{
 
 <td>${item.payment ? formatMoney(item.payment) : "-"}</td>
 
-<td>${formatMoney(currentBalance)}</td>
+<td>${formatMoney(item.balance)}</td>
 
 </tr>
 
 `;
 
-    currentBalance -= item.sale;
-
-    currentBalance += item.payment;
-
 });
 
+
+if(html===""){
+
+html = `
+
+<tr>
+
+<td colspan="5">
+
+اطلاعاتی وجود ندارد
+
+</td>
+
+</tr>
+
+`;
+
+}
+
+
+document.getElementById("historyBody").innerHTML = html;
 if(html===""){
 
 html = `
