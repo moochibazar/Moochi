@@ -919,7 +919,7 @@ const daily = {};
 
 transactions.forEach(item=>{
 
-    const key = item.date.toISOString().split("T")[0];
+    const key = item.date.getFullYear()+"-"+(item.date.getMonth()+1)+"-"+item.date.getDate();
 
     if(!daily[key]){
 
