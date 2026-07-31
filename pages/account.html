@@ -915,7 +915,6 @@ payments.forEach(item=>{
 });
 
 // اول قدیمی به جدید مرتب می‌کنیم
-transactions.sort((a,b)=>{
 const daily = {};
 
 transactions.forEach(item=>{
@@ -939,11 +938,15 @@ transactions.forEach(item=>{
 
 });
 
+
 const merged = Object.values(daily);
+
 
 merged.sort((a,b)=>a.date-b.date);
 
+
 let runningBalance = 0;
+
 
 merged.forEach(item=>{
 
@@ -954,24 +957,8 @@ merged.forEach(item=>{
 
 });
 
+
 merged.reverse();
-  
-let runningBalance = 0;
-
-
-// مانده را برای هر تراکنش ذخیره می‌کنیم
-transactions.forEach(item=>{
-
-    runningBalance += item.sale;
-    runningBalance -= item.payment;
-
-    item.balance = runningBalance;
-
-});
-
-
-// برای نمایش، جدید به قدیم
-transactions.reverse();
 
 
 let html = "";
