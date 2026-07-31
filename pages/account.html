@@ -692,35 +692,17 @@ function formatMoney(number){
 
 function showLoading(){
 
-document.getElementById("orders").innerHTML=`
+document.getElementById("historyBody").innerHTML=`
 
-<div class="loading">
+<tr>
 
-<div class="spinner"></div>
-
-<p style="margin-top:15px">
+<td colspan="5">
 
 در حال بارگذاری...
 
-</p>
+</td>
 
-</div>
-
-`;
-
-document.getElementById("payments").innerHTML=`
-
-<div class="loading">
-
-<div class="spinner"></div>
-
-<p style="margin-top:15px">
-
-در حال بارگذاری...
-
-</p>
-
-</div>
+</tr>
 
 `;
 
@@ -1016,18 +998,6 @@ html = `
 }
 
 document.getElementById("historyBody").innerHTML = html;
-<div class="item">
-
-پرداختی وجود ندارد
-
-</div>
-
-`;
-
-}
-
-document.getElementById("payments").innerHTML =
-paymentHtml;
 
 let title="";
 
