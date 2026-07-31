@@ -892,9 +892,19 @@ totalQty;
 document.getElementById("paymentCount").innerText =
 recentPayments.length;
 
-const balance =
-totalSales-totalPayments;
+let allSales = 0;
+let allPayments = 0;
 
+orders.forEach(item=>{
+    allSales += Number(item[4]) || 0;
+});
+
+payments.forEach(item=>{
+    allPayments += Number(item[2]) || 0;
+});
+
+const balance = allSales - allPayments;
+    
 const balanceBox =
 document.getElementById("balance");
 
