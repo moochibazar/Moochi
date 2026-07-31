@@ -626,57 +626,46 @@ class="value">
 
 <div class="sectionTitle">
 
-🍡 سفارش‌های اخیر
+گردش حساب
 
 </div>
 
-<div id="orders">
 
-<div class="loading">
+<div style="overflow-x:auto">
 
-<div class="spinner"></div>
+<table class="historyTable">
 
-<p style="margin-top:15px">
+<thead>
 
+<tr>
+
+<th>تاریخ</th>
+<th>تعداد سفارش</th>
+<th>مبلغ قابل پرداخت</th>
+<th>مبلغ دریافتی</th>
+<th>مانده</th>
+
+</tr>
+
+</thead>
+
+
+<tbody id="historyBody">
+
+<tr>
+<td colspan="5">
 در حال بارگذاری...
+</td>
+</tr>
 
-</p>
+</tbody>
 
-</div>
 
-</div>
-
-</div>
-
-<div class="card">
-
-<div class="sectionTitle">
-
-💳 پرداخت‌های اخیر
-
-</div>
-
-<div id="payments">
-
-<div class="loading">
-
-<div class="spinner"></div>
-
-<p style="margin-top:15px">
-
-در حال بارگذاری...
-
-</p>
+</table>
 
 </div>
 
 </div>
-
-</div>
-
-<div class="footer">
-
-© Mochi Bazar
 
 </div>
 
@@ -906,7 +895,6 @@ balanceBox.classList.add("green");
 
 }
 
-const lastOrders =
 const transactions = [];
 
 orders.forEach(item=>{
