@@ -965,7 +965,7 @@ html += `
 
 <tr>
 
-<td>${new Intl.DateTimeFormat('fa-IR').format(item.date)}</td>
+<td>${item.date.toISOString().split("T")[0].replace(/-/g,"/")}</td>
 
 <td>${item.qty || "-"}</td>
 
