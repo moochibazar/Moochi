@@ -907,91 +907,91 @@ balanceBox.classList.add("green");
 }
 
 const lastOrders =
-orders.slice(-limit);
+const transactions = [];
 
-const lastPayments =
-payments.slice(-limit);
+orders.forEach(item=>{
 
-let orderHtml="";
+    transactions.push({
 
-lastOrders.forEach(item=>{
+        date:new Date(item[5]),
 
-const orderDate = String(item[5]).split("T")[0].split(/[،,]/)[0].trim();
+        qty:Number(item[2])||0,
 
-orderHtml += `
+        sale:Number(item[4])||0,
 
-<div class="item">
+        payment:0
 
-<h4>
-📅 ${orderDate}
-</h4>
+    });
 
-<p>
-تعداد :
-${item[2]}
-</p>
-
-<p>
-مبلغ :
-${formatMoney(item[4])}
-</p>
-
-</div>
-
-`;
 });
 
-if(orderHtml==""){
+payments.forEach(item=>{
 
-orderHtml=`
+    transactions.push({
 
-<div class="item">
+        date:new Date(item[3]),
 
-سفارشی وجود ندارد
+        qty:0,
 
-</div>
+        sale:0,
+
+        payment:Number(item[2])||0
+
+    });
+
+});
+
+transactions.sort((a,b)=>b.date-a.date);
+
+let currentBalance = totalSales-totalPayments;
+
+let html = "";
+
+transactions.slice(0,limit).forEach(item=>{
+
+    html += `
+
+<tr>
+
+<td>${item.date.toLocaleDateString("fa-IR")}</td>
+
+<td>${item.qty || "-"}</td>
+
+<td>${item.sale ? formatMoney(item.sale) : "-"}</td>
+
+<td>${item.payment ? formatMoney(item.payment) : "-"}</td>
+
+<td>${formatMoney(currentBalance)}</td>
+
+</tr>
+
+`;
+
+    currentBalance -= item.sale;
+
+    currentBalance += item.payment;
+
+});
+
+if(html===""){
+
+html = `
+
+<tr>
+
+<td colspan="5">
+
+اطلاعاتی وجود ندارد
+
+</td>
+
+</tr>
 
 `;
 
 }
 
-document.getElementById("orders").innerHTML =
-orderHtml;
-
-  let paymentHtml = "";
-    
-  lastPayments.forEach(item=>{
-
-const paymentDate = String(item[3]).split("T")[0].split(/[،,]/)[0].trim();
-
-paymentHtml += `
-
-<div class="item">
-
-<h4>
-📅 ${paymentDate}
-</h4>
-
-<p>
-مبلغ :
-${formatMoney(item[2])}
-</p>
-
-<p>
-توضیحات :
-${item[4] || "-"}
-</p>
-
-</div>
-
-`;
-
-});
-
-if(paymentHtml==""){
-
-paymentHtml=`
-
+document.getElementById("historyBody").innerHTML = html;
 <div class="item">
 
 پرداختی وجود ندارد
