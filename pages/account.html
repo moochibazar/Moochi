@@ -928,7 +928,7 @@ orders.forEach(item=>{
 
     type:"order",
 
-    date: item[5],
+    date: new Date(item[5]),
     qty:Number(item[2])||0,
 
     sale:Number(item[4])||0,
