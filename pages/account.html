@@ -852,9 +852,9 @@ paymentsResult.data
 const oneMonthAgo = new Date();
 oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
 
-const recentOrders = orders;
+const recentOrders = orders.slice(-30);
 
-const recentPayments = payments;
+const recentPayments = payments.slice(-30);
 
 let totalSales=0;
 
