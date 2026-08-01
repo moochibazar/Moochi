@@ -246,14 +246,14 @@ window.showWageOne = async function(){
 
 
     <p>
-    تعداد موچی:
+    تعداد موچی ۳۰ سفارش آخر:
     ${data.totalMochi} عدد
     </p>
 
 
 
     <p>
-    کل دستمزد:
+    کل دستمزد ۳۰ سفارش آخر:
     ${data.wageOne.toLocaleString()} تومان
     </p>
 
@@ -268,7 +268,7 @@ window.showWageOne = async function(){
 
     <p>
     <b>
-    مانده:
+    مانده کل:
     ${remain.toLocaleString()} تومان
     </b>
     </p>
@@ -362,14 +362,14 @@ window.showWageTwo = async function(){
 
 
     <p>
-    تعداد موچی:
+    تعداد موچی ۳۰ سفارش آخر:
     ${data.totalMochi} عدد
     </p>
 
 
 
     <p>
-    کل دستمزد:
+    کل دستمزد ۳۰ سفارش آخر:
     ${data.wageTwo.toLocaleString()} تومان
     </p>
 
@@ -384,7 +384,7 @@ window.showWageTwo = async function(){
 
     <p>
     <b>
-    مانده:
+    مانده کل:
     ${remain.toLocaleString()} تومان
     </b>
     </p>
