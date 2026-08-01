@@ -1020,7 +1020,7 @@ html += `
 
 <td>${item.qty || "-"}</td>
 
-<td>${item.sale ? formatMoney(item.sale) : "-"}</td>
+<td>${item.sale ? Number(item.sale).toLocaleString("en-US") : "-"}</td>
 
 <td>${item.payment ? formatMoney(item.payment) : "-"}</td>
 
