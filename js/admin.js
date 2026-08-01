@@ -563,7 +563,8 @@ await Sheet.getOrders();
 const payments =
 await Sheet.getPayments();
 
-
+const expenses =
+await Sheet.getExpenses();
 
 let totalSales = 0;
 
@@ -587,7 +588,19 @@ payments.data
 
 });
 
+let totalExpenses = 0;
 
+expenses.data
+.slice(1)
+.forEach(expense=>{
+
+    totalExpenses += Number(expense[2]) || 0;
+
+});
+
+
+let cashBalance =
+totalPayments - totalExpenses;
 
 pageContent.innerHTML = `
 
@@ -596,25 +609,24 @@ pageContent.innerHTML = `
 
 
 <div class="card"
-onclick="showSalesReport()">
+<div class="card">
 
-<h3>💰 فروش یک ماه گذشته</h3>
+<h3>🏦 مانده صندوق</h3>
 
 <p>
-${formatMoney(totalSales)}
+${formatMoney(cashBalance)}
 </p>
 
 </div>
 
 
-
 <div class="card"
-onclick="showPaymentsReport()">
+onclick="showAddExpensePage()">
 
-<h3>💳 پرداخت یک ماه گذشته</h3>
+<h3>💸 ثبت هزینه</h3>
 
 <p>
-${formatMoney(totalPayments)}
+ثبت هزینه‌های صندوق
 </p>
 
 </div>
@@ -651,6 +663,17 @@ onclick="showWagePage()">
 
 <p>
 محاسبه دستمزد موچی‌ها
+</p>
+
+</div>
+
+<div class="card"
+onclick="showAddExpensePage()">
+
+<h3>💸 ثبت هزینه</h3>
+
+<p>
+ثبت هزینه‌های صندوق
 </p>
 
 </div>
@@ -1355,6 +1378,101 @@ loadCustomerPayments(name,count);
 
 };
 
+ // -------- ثبت هزینه --------
+
+window.showAddExpensePage = function(){
+
+    pageContent.innerHTML = `
+
+    <h2>💸 ثبت هزینه</h2>
+
+
+    <div class="card">
+
+
+        <input
+        id="expenseAmount"
+        type="number"
+        placeholder="مبلغ هزینه">
+
+
+        <input
+        id="expenseDescription"
+        placeholder="توضیحات هزینه">
+
+
+        <button onclick="saveExpense()">
+
+        ثبت هزینه
+
+        </button>
+
+
+        <br><br>
+
+
+        <button onclick="showReportsPage()">
+
+        ⬅️ بازگشت
+
+        </button>
+
+
+    </div>
+
+    `;
+
+};
+
+
+
+
+// ذخیره هزینه
+
+window.saveExpense = async function(){
+
+
+    const amount =
+    document.getElementById("expenseAmount").value;
+
+
+    const description =
+    document.getElementById("expenseDescription").value;
+
+
+
+    if(!amount){
+
+        alert("مبلغ را وارد کنید");
+
+        return;
+
+    }
+
+
+
+    const result =
+    await Sheet.addExpense(
+        amount,
+        description
+    );
+
+
+
+    if(result.success){
+
+        alert("هزینه ثبت شد ✅");
+
+        showReportsPage();
+
+    }else{
+
+        alert("خطا در ثبت هزینه");
+
+    }
+
+
+};
     
 // منوها
 
