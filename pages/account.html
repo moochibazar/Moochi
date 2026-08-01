@@ -928,7 +928,7 @@ orders.forEach(item=>{
 
     type:"order",
 
-    date: new Date(item[5]),
+    date: item[5],
     qty:Number(item[2])||0,
 
     sale:Number(item[4])||0,
@@ -945,7 +945,7 @@ payments.forEach(item=>{
 
     type:"payment",
 
-    date:new Date(item[3]),
+    date: item[3],
 
     qty:0,
 
@@ -961,7 +961,7 @@ const daily = {};
 
 transactions.forEach(item=>{
 
-    const key = item.date.getFullYear()+"-"+(item.date.getMonth()+1)+"-"+item.date.getDate();
+    const key = item.date;
 
     if(!daily[key]){
 
@@ -984,7 +984,14 @@ transactions.forEach(item=>{
 const merged = Object.values(daily);
 
 
-merged.sort((a,b)=>a.date-b.date);
+merged.sort((a,b)=>{
+    const aa = a.date.split("/").map(Number);
+    const bb = b.date.split("/").map(Number);
+
+    if(aa[0] !== bb[0]) return aa[0] - bb[0];
+    if(aa[1] !== bb[1]) return aa[1] - bb[1];
+    return aa[2] - bb[2];
+});
 
 
 let runningBalance = 0;
@@ -1013,7 +1020,7 @@ html += `
 
 <tr>
 
-<td>${item.date.toISOString().split("T")[0].replace(/-/g,"/")}</td>
+<td>${item.date}</td>
 
 <td>${item.qty || "-"}</td>
 
