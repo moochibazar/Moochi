@@ -207,5 +207,37 @@ addWage(type, amount, date, description){
     );
 
 }
-    
+,
+
+// ---------- هزینه‌ها ----------
+
+getExpenses(){
+
+    return api(
+        "read",
+        "Expenses"
+    );
+
+},
+
+
+addExpense(amount, description){
+
+    return api(
+        "write",
+        "Expenses",
+        [
+
+            crypto.randomUUID(),
+
+            getPersianDate(),
+
+            Number(amount),
+
+            description || ""
+
+        ]
+    );
+
+}    
 };
