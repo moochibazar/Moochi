@@ -8,54 +8,57 @@ let wageOrderLimit = 5;
 
 async function calculateWages(){
 
-    try {
+    try{
 
-        const orders =
-        await Sheet.getOrders();
+        const orders = await Sheet.getOrders();
 
+        const allOrders = orders.data.slice(1);
 
-        let totalMochi = 0;
+        // مجموع کل موچی از اولین سفارش تا آخرین سفارش
+        let totalAllMochi = 0;
 
-
-        const lastOrders =
-        orders.data
-        .slice(1)
-        .slice(-wageOrderLimit);
-
-
-
-        lastOrders.forEach(order=>{
-
-            totalMochi += Number(order[2]) || 0;
-
+        allOrders.forEach(order=>{
+            totalAllMochi += Number(order[2]) || 0;
         });
 
+        // مجموع موچی ۳۰ سفارش آخر
+        let totalLast30Mochi = 0;
 
+        allOrders
+            .slice(-30)
+            .forEach(order=>{
+                totalLast30Mochi += Number(order[2]) || 0;
+            });
 
-        return {
+        return{
 
-            totalMochi,
+            totalMochi: totalLast30Mochi,
 
-            wageOne:
-            totalMochi * WAGE_ONE,
+            wageOne: totalLast30Mochi * WAGE_ONE,
 
-            wageTwo:
-            totalMochi * WAGE_TWO
+            wageTwo: totalLast30Mochi * WAGE_TWO,
+
+            totalWageOne: totalAllMochi * WAGE_ONE,
+
+            totalWageTwo: totalAllMochi * WAGE_TWO
 
         };
 
-
-    } catch(error){
+    }catch(error){
 
         console.error(error);
 
-        return {
+        return{
 
             totalMochi:0,
 
             wageOne:0,
 
-            wageTwo:0
+            wageTwo:0,
+
+            totalWageOne:0,
+
+            totalWageTwo:0
 
         };
 
@@ -228,7 +231,7 @@ window.showWageOne = async function(){
 
 
     const remain =
-    data.wageOne - paid;
+    data.totalWageOne - paid;
 
 
 
@@ -344,7 +347,7 @@ window.showWageTwo = async function(){
 
 
     const remain =
-    data.wageTwo - paid;
+    data.totalWageTwo - paid;
 
 
 
