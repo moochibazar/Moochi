@@ -3,27 +3,23 @@ document.addEventListener("DOMContentLoaded", loadExpenses);
 
 async function loadExpenses(){
 
-
 const box =
 document.getElementById("expensesTable");
 
 
-
 box.innerHTML = `
 
-<div style="
-text-align:center;
-padding:40px;
-font-size:20px;
-color:#00a896;
-">
+<div class="loading">
 
-🍡 در حال آماده‌سازی گردش هزینه‌ها...
+<div class="spinner"></div>
+
+<p>
+در حال بارگذاری...
+</p>
 
 </div>
 
 `;
-
 
 
 try{
@@ -33,30 +29,29 @@ const expenses =
 await Sheet.getExpenses();
 
 
-
 const wages =
 await Sheet.getWages();
 
 
 
-let data = {};
+const data = {};
 
-let dates = new Set();
+const dates = new Set();
 
 
 
-// هزینه‌ها
+// ---------- هزینه‌ها ----------
+
 
 expenses.data
 .slice(1)
 .forEach(expense=>{
 
 
-let date =
+const date =
 String(expense[1])
 .split("T")[0]
 .replace(/-/g,"/");
-
 
 
 dates.add(date);
@@ -68,13 +63,12 @@ if(!data[date]){
 data[date]={
 
 expense:"",
-one:"",
-two:""
+wageOne:"",
+wageTwo:""
 
 };
 
 }
-
 
 
 data[date].expense =
@@ -88,19 +82,18 @@ Number(expense[2])
 
 
 
+// ---------- دستمزد ----------
 
-// دستمزدها
 
 wages.data
 .slice(1)
 .forEach(wage=>{
 
 
-let date =
+const date =
 String(wage[3])
 .split("T")[0]
 .replace(/-/g,"/");
-
 
 
 dates.add(date);
@@ -112,8 +105,8 @@ if(!data[date]){
 data[date]={
 
 expense:"",
-one:"",
-two:""
+wageOne:"",
+wageTwo:""
 
 };
 
@@ -123,9 +116,11 @@ two:""
 
 if(wage[1]=="دستمزد یک"){
 
-data[date].one =
+
+data[date].wageOne =
 Number(wage[2])
 .toLocaleString();
+
 
 }
 
@@ -133,16 +128,17 @@ Number(wage[2])
 
 if(wage[1]=="دستمزد دو"){
 
-data[date].two =
+
+data[date].wageTwo =
 Number(wage[2])
 .toLocaleString();
+
 
 }
 
 
+
 });
-
-
 
 
 
@@ -155,109 +151,101 @@ let html = `
 body{
 
 background:
-
 linear-gradient(
 135deg,
-#ffe4f1,
-#d9fff8
+#fff0f7,
+#f0e8ff
 );
 
 }
 
 
 
-.exp-title{
-
+.expense-title{
 
 text-align:center;
 
-font-size:28px;
+font-size:26px;
 
-font-weight:bold;
-
-color:#ff5caa;
+color:#7b5cff;
 
 margin:20px;
 
-
-text-shadow:
-0 3px 8px
-rgba(255,92,170,.3);
-
-
 }
 
 
 
-.exp-card{
+.expense-box{
 
 
 background:
-
-rgba(255,255,255,.75);
-
+rgba(255,255,255,.65);
 
 backdrop-filter:
-
 blur(15px);
 
-
-border-radius:30px;
-
+border-radius:28px;
 
 padding:18px;
 
-
-margin:20px 5px;
-
+margin-bottom:20px;
 
 box-shadow:
-
-0 15px 35px
-rgba(0,168,150,.18);
-
+0 12px 30px
+rgba(123,92,255,.18);
 
 border:
-
-2px solid
-rgba(255,255,255,.8);
+1px solid white;
 
 
 }
 
 
 
-.date{
-
-
-background:
-
-linear-gradient(
-135deg,
-#ff9fca,
-#7ee8db
-);
-
-
-color:white;
-
-
-padding:10px;
-
-
-border-radius:20px;
+.date-title{
 
 
 text-align:center;
 
-
 font-size:20px;
-
 
 font-weight:bold;
 
+color:#6d4cff;
 
-margin-bottom:18px;
+margin-bottom:15px;
+
+
+}
+
+
+
+.cards-row{
+
+
+display:flex;
+
+gap:10px;
+
+justify-content:center;
+
+
+}
+
+
+
+.small-card{
+
+
+flex:1;
+
+background:white;
+
+border-radius:20px;
+
+padding:12px 5px;
+
+text-align:center;
 
 
 box-shadow:
@@ -266,59 +254,8 @@ box-shadow:
 rgba(0,0,0,.12);
 
 
-}
-
-
-
-.row{
-
-
-display:flex;
-
-
-gap:10px;
-
-
-}
-
-
-
-.box{
-
-
-flex:1;
-
-
-height:90px;
-
-
-border-radius:22px;
-
-
-display:flex;
-
-
-flex-direction:column;
-
-
-justify-content:center;
-
-
-align-items:center;
-
-
-font-size:14px;
-
-
-font-weight:bold;
-
-
-box-shadow:
-
-
-0 8px 18px
-rgba(0,0,0,.12);
-
+transform:
+translateY(0);
 
 transition:.3s;
 
@@ -327,25 +264,36 @@ transition:.3s;
 
 
 
-.box:active{
+.small-card:active{
 
 
 transform:
-
-scale(.96);
+translateY(3px);
 
 
 }
 
 
 
-.box span{
+
+.small-card h4{
+
+
+margin:0 0 10px;
+
+font-size:13px;
+
+
+}
+
+
+
+.amount{
 
 
 font-size:18px;
 
-
-margin-top:8px;
+font-weight:bold;
 
 
 }
@@ -354,55 +302,48 @@ margin-top:8px;
 
 .cost{
 
-
-background:
-
-linear-gradient(
-135deg,
-#ffd1e3,
-#fff0f6
-);
-
-
-color:#ff4f87;
-
+color:#ff4f81;
 
 }
-
 
 
 .one{
 
+color:#8b5cf6;
 
-background:
-
-linear-gradient(
-135deg,
-#bffff1,
-#eafffa
-);
+}
 
 
-color:#009f8b;
+.two{
 
+color:#2196f3;
 
 }
 
 
 
-.two{
+.back-btn{
 
+
+width:100%;
+
+padding:15px;
+
+border:none;
+
+border-radius:20px;
 
 background:
-
 linear-gradient(
 135deg,
-#d7f6ff,
-#ffffff
+#7b5cff,
+#ff6fb5
 );
 
 
-color:#008ac0;
+color:white;
+
+font-size:18px;
 
 
 }
@@ -411,17 +352,16 @@ color:#008ac0;
 </style>
 
 
+<h2 class="expense-title">
 
-<h2 class="exp-title">
-
-🍡 گردش شیرین هزینه‌ها 🍡
+🌸 گردش هزینه‌ها 🌸
 
 </h2>
 
 
 `;
 
-  [...dates]
+[...dates]
 .sort()
 .reverse()
 .forEach(date=>{
@@ -429,10 +369,10 @@ color:#008ac0;
 
 html += `
 
-<div class="exp-card">
+<div class="expense-box">
 
 
-<div class="date">
+<div class="date-title">
 
 📅 ${date}
 
@@ -440,54 +380,62 @@ html += `
 
 
 
-<div class="row">
+<div class="cards-row">
 
 
-<div class="box cost">
 
+<div class="small-card">
+
+<h4>
 💸 هزینه
+</h4>
 
-<span>
+<div class="amount cost">
 
 ${data[date].expense || "—"}
 
-</span>
+</div>
 
 </div>
 
 
 
 
-<div class="box one">
+<div class="small-card">
 
+<h4>
 💜 دستمزد یک
+</h4>
 
-<span>
+<div class="amount one">
 
-${data[date].one || "—"}
+${data[date].wageOne || "—"}
 
-</span>
+</div>
 
 </div>
 
 
 
 
-<div class="box two">
 
+<div class="small-card">
+
+<h4>
 💙 دستمزد دو
+</h4>
 
-<span>
+<div class="amount two">
 
-${data[date].two || "—"}
+${data[date].wageTwo || "—"}
 
-</span>
+</div>
 
 </div>
 
 
-</div>
 
+</div>
 
 
 </div>
@@ -500,57 +448,15 @@ ${data[date].two || "—"}
 
 
 
+
 html += `
 
 
-<button
+<button class="back-btn"
 
-onclick="location.href='admin.html'"
-
-style="
-
-
-width:100%;
-
-padding:16px;
-
-border:none;
-
-border-radius:25px;
-
-
-background:
-
-linear-gradient(
-135deg,
-#ff7eb3,
-#00c9b7
-);
-
-
-color:white;
-
-
-font-size:19px;
-
-
-font-weight:bold;
-
-
-box-shadow:
-
-0 10px 25px
-rgba(0,0,0,.15);
-
-
-margin-bottom:20px;
-
-
-">
-
+onclick="location.href='admin.html'">
 
 ⬅️ بازگشت
-
 
 </button>
 
@@ -563,24 +469,19 @@ box.innerHTML = html;
 
 
 
-}
-
-catch(error){
+}catch(error){
 
 
 console.error(error);
 
 
-
 box.innerHTML = `
 
+<div class="expense-box">
 
-<div class="exp-card">
-
-❌ خطا در دریافت اطلاعات
+خطا در دریافت اطلاعات
 
 </div>
-
 
 `;
 
