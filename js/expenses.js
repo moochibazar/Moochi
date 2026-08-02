@@ -8,6 +8,11 @@ async function loadExpenses(){
     const expenses =
     await Sheet.getExpenses();
 
+    const wages =
+    await Sheet.getWages();
+
+    const wageMap = {};
+
     let html = `
 
     <table border="1" style="width:100%;text-align:center;border-collapse:collapse;">
