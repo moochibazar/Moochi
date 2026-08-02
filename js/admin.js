@@ -630,6 +630,16 @@ onclick="showAddExpensePage()">
 
 </div>
 
+<div class="card"
+onclick="location.href='expenses.html'">
+
+<h3>📋 گردش هزینه‌ها</h3>
+
+<p>
+مشاهده هزینه‌ها و دستمزدها
+</p>
+
+</div>
 
 
 <div class="card"
