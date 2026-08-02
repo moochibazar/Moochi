@@ -13,6 +13,38 @@ async function loadExpenses(){
 
     const wageMap = {};
 
+    wages.data
+.slice(1)
+.forEach(wage=>{
+
+    const date =
+    String(wage[3]).split("T")[0];
+
+    if(!wageMap[date]){
+
+        wageMap[date] = {
+            one:"",
+            two:""
+        };
+
+    }
+
+    if(wage[1] == "دستمزد یک"){
+
+        wageMap[date].one =
+        Number(wage[2]).toLocaleString();
+
+    }
+
+    if(wage[1] == "دستمزد دو"){
+
+        wageMap[date].two =
+        Number(wage[2]).toLocaleString();
+
+    }
+
+});
+
     let html = `
 
     <table border="1" style="width:100%;text-align:center;border-collapse:collapse;">
@@ -30,21 +62,30 @@ async function loadExpenses(){
     .slice(1)
     .forEach(expense=>{
 
-        html += `
+        const date =
+String(expense[1]).split("T")[0];
 
-        <tr>
+const wage =
+wageMap[date] || {
+    one:"",
+    two:""
+};
 
-            <td>${String(expense[1]).split("T")[0].replace(/-/g,"/")}</td>
+html += `
 
-            <td>${Number(expense[2]).toLocaleString()}</td>
+<tr>
 
-            <td></td>
+    <td>${date.replace(/-/g,"/")}</td>
 
-            <td></td>
+    <td>${Number(expense[2]).toLocaleString()}</td>
 
-        </tr>
+    <td>${wage.one}</td>
 
-        `;
+    <td>${wage.two}</td>
+
+</tr>
+
+`;
 
     });
 
