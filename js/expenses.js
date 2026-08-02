@@ -5,19 +5,46 @@ async function loadExpenses(){
     const box =
     document.getElementById("expensesTable");
 
-    box.innerHTML = `
-    
+    const expenses =
+    await Sheet.getExpenses();
+
+    let html = `
+
     <table border="1" style="width:100%;text-align:center;border-collapse:collapse;">
-    
+
         <tr>
             <th>تاریخ</th>
             <th>هزینه‌ها</th>
             <th>دستمزد یک</th>
             <th>دستمزد دو</th>
         </tr>
-    
-    </table>
-    
+
     `;
+
+    expenses.data
+    .slice(1)
+    .forEach(expense=>{
+
+        html += `
+
+        <tr>
+
+            <td>${expense[1]}</td>
+
+            <td>${Number(expense[2]).toLocaleString()}</td>
+
+            <td></td>
+
+            <td></td>
+
+        </tr>
+
+        `;
+
+    });
+
+    html += "</table>";
+
+    box.innerHTML = html;
 
 }
