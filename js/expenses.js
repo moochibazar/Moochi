@@ -390,28 +390,55 @@ scale(.985);
 }
 
 
-@keyframes showCard{
-
-from{
+.expense-box{
 
 opacity:0;
 
 transform:
-translateY(25px);
+translateY(-100px)
+scale(.9);
+
+animation:
+
+dropCard .7s
+cubic-bezier(.2,1.2,.3,1)
+forwards;
 
 }
 
-to{
+@keyframes dropCard{
+
+0%{
+
+opacity:0;
+
+transform:
+translateY(-100px)
+scale(.9);
+
+}
+
+70%{
 
 opacity:1;
 
 transform:
-translateY(0);
+translateY(15px)
+scale(1.03);
+
+}
+
+100%{
+
+opacity:1;
+
+transform:
+translateY(0)
+scale(1);
 
 }
 
 }
-
 
 
 /* نور روی کارت */
@@ -1005,14 +1032,107 @@ box-shadow:
 
 }
 
+.bubbles{
+
+position:fixed;
+
+top:0;
+left:0;
+
+width:100%;
+height:100%;
+
+pointer-events:none;
+
+overflow:hidden;
+
+z-index:-1;
+
+}
+
+.bubbles span{
+
+position:absolute;
+
+bottom:-120px;
+
+border-radius:50%;
+
+background:rgba(255,170,220,.35);
+
+border:1px solid rgba(255,255,255,.8);
+
+backdrop-filter:blur(3px);
+
+animation:floatBubble linear infinite;
+
+box-shadow:
+
+inset 0 0 12px white,
+
+0 0 15px rgba(255,120,180,.4);
+
+}
+
+@keyframes floatBubble{
+
+0%{
+
+transform:translateY(0) translateX(0);
+
+opacity:0;
+
+}
+
+20%{
+
+opacity:1;
+
+}
+
+100%{
+
+transform:translateY(-120vh) translateX(40px);
+
+opacity:0;
+
+}
+
+}
+
+.bubbles span:nth-child(1){left:3%;width:22px;height:22px;animation-duration:8s;}
+.bubbles span:nth-child(2){left:10%;width:55px;height:55px;animation-duration:12s;}
+.bubbles span:nth-child(3){left:18%;width:30px;height:30px;animation-duration:9s;}
+.bubbles span:nth-child(4){left:28%;width:45px;height:45px;animation-duration:15s;}
+.bubbles span:nth-child(5){left:37%;width:20px;height:20px;animation-duration:7s;}
+.bubbles span:nth-child(6){left:48%;width:65px;height:65px;animation-duration:16s;}
+.bubbles span:nth-child(7){left:58%;width:25px;height:25px;animation-duration:8s;}
+.bubbles span:nth-child(8){left:68%;width:40px;height:40px;animation-duration:11s;}
+.bubbles span:nth-child(9){left:77%;width:30px;height:30px;animation-duration:9s;}
+.bubbles span:nth-child(10){left:85%;width:60px;height:60px;animation-duration:14s;}
+.bubbles span:nth-child(11){left:92%;width:22px;height:22px;animation-duration:10s;}
+.bubbles span:nth-child(12){left:97%;width:45px;height:45px;animation-duration:13s;}
+
+
 </style>
 
+<div class="bubbles">
 
-<h2 class="expense-title">
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
 
-🌸 گردش هزینه‌ها 🌸
+</div>
 
-</h2>
 
 
 `;
@@ -1020,12 +1140,13 @@ box-shadow:
 [...dates]
 .sort()
 .reverse()
-.forEach(date=>{
+.forEach((date,index)=>{
 
 
 html += `
 
-<div class="expense-box">
+<div class="expense-box"
+style="animation-delay:${index*0.15}s">
 
 
 <div class="date-title">
@@ -1103,21 +1224,6 @@ ${data[date].wageTwo || "—"}
 
 
 
-
-
-html += `
-
-
-<button class="back-btn"
-
-onclick="location.href='admin.html'">
-
-⬅️ بازگشت
-
-</button>
-
-
-`;
 
 
 
