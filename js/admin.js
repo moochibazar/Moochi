@@ -608,7 +608,6 @@ pageContent.innerHTML = `
 <h2>📄 گزارش‌ها</h2>
 
 
-<div class="card"
 <div class="card">
 
 <h3>🏦 مانده صندوق</h3>
@@ -663,17 +662,6 @@ onclick="showWagePage()">
 
 <p>
 محاسبه دستمزد موچی‌ها
-</p>
-
-</div>
-
-<div class="card"
-onclick="showAddExpensePage()">
-
-<h3>💸 ثبت هزینه</h3>
-
-<p>
-ثبت هزینه‌های صندوق
 </p>
 
 </div>
