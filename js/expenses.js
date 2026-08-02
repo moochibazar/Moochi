@@ -146,6 +146,7 @@ let html = `
 
 
 
+
 <style>
 
 *{
@@ -155,19 +156,25 @@ box-sizing:border-box;
 font-family:tahoma;
 }
 
+html{
+scroll-behavior:smooth;
+}
+
 body{
+
+min-height:100vh;
+
+padding:18px;
 
 background:
 linear-gradient(
 135deg,
-#ffeaf5 0%,
-#f7f0ff 35%,
-#e9ffff 70%,
-#fff4fb 100%);
+#fff5fb 0%,
+#ffe8f5 30%,
+#eefcff 65%,
+#f5f0ff 100%);
 
 background-attachment:fixed;
-
-min-height:100vh;
 
 overflow-x:hidden;
 
@@ -176,7 +183,9 @@ position:relative;
 }
 
 
-/* حباب‌های پس‌زمینه */
+/* ===========================
+   حباب‌های متحرک
+=========================== */
 
 body::before{
 
@@ -184,25 +193,25 @@ content:"";
 
 position:fixed;
 
-top:-120px;
-left:-120px;
+width:300px;
+height:300px;
 
-width:260px;
-height:260px;
+left:-120px;
+top:-120px;
 
 border-radius:50%;
 
 background:
-
 radial-gradient(circle,
-rgba(255,120,180,.45),
+rgba(255,150,200,.55),
 transparent 70%);
 
-filter:blur(25px);
+filter:blur(28px);
 
-animation:float1 12s infinite alternate;
+animation:
+bubble1 13s ease-in-out infinite alternate;
 
-z-index:-2;
+z-index:-5;
 
 }
 
@@ -212,59 +221,64 @@ content:"";
 
 position:fixed;
 
-right:-100px;
-bottom:-100px;
+width:260px;
+height:260px;
 
-width:250px;
-height:250px;
+right:-80px;
+bottom:-80px;
 
 border-radius:50%;
 
 background:
-
 radial-gradient(circle,
-rgba(0,220,220,.35),
+rgba(70,240,240,.45),
 transparent 70%);
 
-filter:blur(25px);
+filter:blur(28px);
 
-animation:float2 14s infinite alternate;
+animation:
+bubble2 15s ease-in-out infinite alternate;
 
-z-index:-2;
+z-index:-5;
 
 }
 
-@keyframes float1{
+
+@keyframes bubble1{
 
 0%{
 
 transform:
-translate(0,0);
+translate(0,0)
+scale(1);
 
 }
 
 100%{
 
 transform:
-translate(60px,40px);
+translate(80px,60px)
+scale(1.2);
 
 }
 
 }
 
-@keyframes float2{
+@keyframes bubble2{
 
 0%{
 
 transform:
-translate(0,0);
+translate(0,0)
+scale(1);
 
 }
 
 100%{
 
 transform:
-translate(-50px,-60px);
+translate(-70px,-70px)
+scale(.9);
 
 }
 
@@ -272,7 +286,9 @@ translate(-50px,-60px);
 
 
 
-/* عنوان */
+/* ===========================
+عنوان
+=========================== */
 
 .expense-title{
 
@@ -282,61 +298,123 @@ font-weight:bold;
 
 text-align:center;
 
-margin:22px 0 30px;
+margin:10px 0 25px;
 
-color:#ff5ea8;
+color:#ff5ca8;
 
 text-shadow:
 
-0 2px 0 white,
+0 2px white,
 
-0 8px 18px
-rgba(255,105,180,.35);
+0 10px 20px
+rgba(255,120,180,.35);
+
+animation:
+titlePop .7s;
+
+}
+
+@keyframes titlePop{
+
+from{
+
+opacity:0;
+
+transform:
+translateY(-25px);
+
+}
+
+to{
+
+opacity:1;
+
+transform:
+translateY(0);
+
+}
 
 }
 
 
 
-/* کارت هر روز */
+/* ===========================
+کارت هر روز
+=========================== */
 
 .expense-box{
 
 position:relative;
 
-margin-bottom:24px;
+margin-bottom:18px;
 
 padding:18px;
 
-border-radius:30px;
+border-radius:28px;
 
 background:
 
-rgba(255,255,255,.72);
+rgba(255,255,255,.70);
 
-backdrop-filter:blur(18px);
+backdrop-filter:
+
+blur(18px);
 
 border:
 
-2px solid
-rgba(255,255,255,.9);
+2px solid rgba(255,255,255,.95);
 
 box-shadow:
 
-0 20px 40px rgba(255,120,180,.16),
+0 18px 40px rgba(255,120,180,.15),
 
-0 8px 20px rgba(0,200,200,.12),
+0 8px 18px rgba(0,220,220,.10),
 
-inset 0 1px 0 rgba(255,255,255,.9);
+inset 0 1px 0 white;
+
+overflow:hidden;
+
+animation:
+showCard .45s ease;
 
 transition:.25s;
 
-overflow:hidden;
+}
+
+
+.expense-box:active{
+
+transform:
+scale(.985);
+
+}
+
+
+@keyframes showCard{
+
+from{
+
+opacity:0;
+
+transform:
+translateY(25px);
+
+}
+
+to{
+
+opacity:1;
+
+transform:
+translateY(0);
+
+}
 
 }
 
 
 
-/* براق بودن کارت */
+/* نور روی کارت */
 
 .expense-box::before{
 
@@ -344,11 +422,11 @@ content:"";
 
 position:absolute;
 
-top:-70px;
+top:-90px;
 
-left:-30px;
+left:-50px;
 
-width:160%;
+width:170%;
 
 height:120px;
 
@@ -366,154 +444,185 @@ transparent
 
 );
 
-transform:rotate(-8deg);
-
-}
-
-
-
-/* لمس */
-
-.expense-box:active{
-
 transform:
-
-scale(.98);
-
-box-shadow:
-
-0 10px 18px rgba(0,0,0,.12);
+rotate(-8deg);
 
 }
 
 
 
-/* تاریخ */
+/* ===========================
+تاریخ
+=========================== */
 
 .date-title{
 
-display:inline-block;
+width:max-content;
 
-padding:10px 24px;
+margin:auto;
+
+padding:
+
+9px 22px;
 
 border-radius:999px;
 
 background:
 
 linear-gradient(
-
 135deg,
-
-#ff72b4,
-
-#8a67ff);
+#ff72b5,
+#8b6cff);
 
 color:white;
 
-font-size:17px;
+font-size:15px;
 
 font-weight:bold;
 
 box-shadow:
 
 0 10px 18px
+rgba(123,92,255,.25);
 
-rgba(123,92,255,.35);
-
-margin:0 auto 20px;
-
-display:flex;
-
-justify-content:center;
-
-width:max-content;
+margin-bottom:16px;
 
 }
-
-
-
-/* سه کارت */
+/* ===========================
+سه کارت
+=========================== */
 
 .cards-row{
 
 display:flex;
 
-gap:12px;
+gap:4px;
 
 align-items:stretch;
 
+justify-content:center;
+
 }
+
+
+
+/* کارت‌ها */
 
 .small-card{
 
 flex:1;
 
-padding:14px 10px;
-
-border-radius:24px;
-
-background:white;
-
-box-shadow:
-
-0 12px 18px rgba(0,0,0,.08),
-
-inset 0 2px 0 white;
-
-transition:.25s;
-
 position:relative;
 
 overflow:hidden;
 
+padding:8px 5px;
+
+border-radius:20px;
+
+transition:.28s;
+
+box-shadow:
+
+0 10px 18px rgba(0,0,0,.08),
+
+inset 0 2px 0 rgba(255,255,255,.9);
+
 }
+
+
+
+/* براق بودن کارت */
+
 .small-card::before{
 
 content:"";
 
 position:absolute;
 
-top:0;
-left:0;
+top:-120%;
 
-width:100%;
-height:5px;
+left:-35%;
 
-background:white;
+width:55%;
 
-opacity:.7;
+height:320%;
+
+background:
+
+rgba(255,255,255,.45);
+
+transform:rotate(25deg);
+
+transition:.7s;
 
 }
 
-.small-card:active{
+.small-card:hover::before{
 
-transform:translateY(3px) scale(.98);
+left:120%;
+
+}
+
+
+
+/* سه بعدی */
+
+.small-card:hover{
+
+transform:
+
+translateY(-6px)
+
+scale(1.02);
 
 box-shadow:
 
-0 5px 10px rgba(0,0,0,.08);
+0 18px 28px rgba(255,105,180,.18),
+
+0 12px 22px rgba(0,210,210,.16);
 
 }
 
+
+
+.small-card:active{
+
+transform:
+
+translateY(2px)
+
+scale(.98);
+
+}
+
+
+
+/* عنوان کارت */
+
 .small-card h4{
 
-font-size:14px;
-
-margin-bottom:12px;
+font-size:12px;
 
 font-weight:bold;
+
+margin-bottom:8px;
 
 color:#555;
 
 }
 
+
+
+/* مبلغ */
+
 .amount{
 
-font-size:22px;
+font-size:14px;
 
 font-weight:bold;
 
-line-height:1.5;
+line-height:1.4;
 
 word-break:break-word;
 
@@ -532,17 +641,20 @@ text-shadow:
 background:
 
 linear-gradient(
+
 180deg,
-#ffe3ef,
-#ffd2e5);
 
-border:2px solid #ffc1dc;
+#ffe8f2,
 
-color:#ff4b8f;
+#ffd7e8
 
-box-shadow:
+);
 
-0 12px 20px rgba(255,105,180,.18);
+border:
+
+2px solid #ffc7df;
+
+color:#ff4d8f;
 
 }
 
@@ -555,17 +667,20 @@ box-shadow:
 background:
 
 linear-gradient(
+
 180deg,
-#f0e8ff,
-#e1d6ff);
 
-border:2px solid #d5c6ff;
+#f1e8ff,
 
-color:#7b4dff;
+#e3d7ff
 
-box-shadow:
+);
 
-0 12px 20px rgba(123,92,255,.18);
+border:
+
+2px solid #d6c6ff;
+
+color:#7a4dff;
 
 }
 
@@ -578,51 +693,63 @@ box-shadow:
 background:
 
 linear-gradient(
-180deg,
-#e8ffff,
-#d5fbfb);
 
-border:2px solid #bdf6f6;
+180deg,
+
+#e7ffff,
+
+#d5fbfb
+
+);
+
+border:
+
+2px solid #bdf5f5;
 
 color:#00aeb5;
 
-box-shadow:
-
-0 12px 20px rgba(0,180,180,.18);
-
 }
+
+
+
+/* داخل کارت */
 
 .cost,
 .one,
 .two{
 
-padding:14px;
+padding:12px;
 
-border-radius:18px;
+border-radius:15px;
+
+box-shadow:
+
+inset 0 2px 0 rgba(255,255,255,.9),
+
+0 6px 12px rgba(0,0,0,.05);
 
 }
-
-
-
-/* دکمه */
+/* ===========================
+دکمه بازگشت
+=========================== */
 
 .back-btn{
 
 width:100%;
 
-margin-top:28px;
+margin-top:22px;
 
-padding:16px;
+padding:15px;
 
 border:none;
 
-border-radius:999px;
-
-font-size:18px;
-
-font-weight:bold;
+border-radius:22px;
 
 cursor:pointer;
+
+font-size:17px;
+
+font-weight:bold;
 
 color:white;
 
@@ -630,63 +757,100 @@ background:
 
 linear-gradient(
 135deg,
-#ff6ab3,
-#9b6dff,
-#49dddd);
+#ff6bb3,
+#8a6cff,
+#55e6e6);
 
-background-size:250%;
+background-size:250% 250%;
+
+animation:
+buttonGlow 6s linear infinite;
 
 box-shadow:
 
-0 16px 28px rgba(123,92,255,.28);
+0 12px 25px rgba(255,105,180,.28),
 
-transition:.3s;
+0 8px 18px rgba(0,220,220,.18);
+
+transition:.25s;
 
 }
 
 .back-btn:hover{
 
-background-position:right;
+transform:
+translateY(-3px);
+
+box-shadow:
+
+0 18px 32px rgba(255,105,180,.35),
+
+0 10px 22px rgba(0,220,220,.22);
 
 }
 
 .back-btn:active{
 
-transform:scale(.98);
+transform:
+translateY(2px);
 
-box-shadow:
+}
 
-0 8px 14px rgba(123,92,255,.2);
+@keyframes buttonGlow{
+
+0%{
+
+background-position:0% 50%;
+
+}
+
+100%{
+
+background-position:100% 50%;
+
+}
 
 }
 
 
-
-/* لودینگ */
+/* ===========================
+لودینگ
+=========================== */
 
 .loading{
 
-text-align:center;
+display:flex;
 
-padding:50px 20px;
+flex-direction:column;
+
+align-items:center;
+
+justify-content:center;
+
+padding:45px 0;
 
 }
 
 .spinner{
 
-width:52px;
+width:65px;
 
-height:52px;
-
-margin:auto;
+height:65px;
 
 border-radius:50%;
 
-border:6px solid #ffd8ea;
+border:6px solid #ffd6ea;
 
-border-top-color:#7b5cff;
+border-top:6px solid #6fe9ea;
 
-animation:spin 1s linear infinite;
+animation:
+spin .8s linear infinite;
+
+box-shadow:
+
+0 0 25px rgba(255,105,180,.18);
+
+margin-bottom:16px;
 
 }
 
@@ -701,69 +865,147 @@ transform:rotate(360deg);
 }
 
 
+/* ===========================
+اسکرول
+=========================== */
 
-/* موبایل */
+::-webkit-scrollbar{
+
+width:8px;
+
+}
+
+::-webkit-scrollbar-track{
+
+background:#ffeef8;
+
+border-radius:20px;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+background:
+
+linear-gradient(
+#ff7ab8,
+#79ecec);
+
+border-radius:20px;
+
+}
+
+
+/* ===========================
+موبایل
+=========================== */
 
 @media(max-width:600px){
 
 body{
 
-padding:15px;
+padding:12px;
 
 }
 
 .expense-title{
 
-font-size:26px;
+font-size:24px;
+
+margin-bottom:18px;
+
+}
+
+.expense-box{
+
+padding:14px;
+
+border-radius:22px;
+
+margin-bottom:14px;
 
 }
 
 .cards-row{
 
-gap:8px;
+gap:3px;
 
 }
 
 .small-card{
 
-padding:10px 6px;
+padding:6px 4px;
 
-border-radius:18px;
+border-radius:16px;
 
 }
 
 .small-card h4{
 
-font-size:12px;
+font-size:11px;
+
+margin-bottom:6px;
 
 }
 
 .amount{
 
-font-size:17px;
+font-size:12px;
 
 }
 
 .date-title{
 
-font-size:15px;
+font-size:13px;
 
-padding:8px 18px;
+padding:8px 16px;
 
 }
 
 .back-btn{
 
-font-size:17px;
+font-size:15px;
+
+padding:13px;
 
 }
+
+}
+
+
+/* ===========================
+حباب‌های کوچک
+=========================== */
+
+.expense-box::after{
+
+content:"";
+
+position:absolute;
+
+right:14px;
+
+top:14px;
+
+width:16px;
+
+height:16px;
+
+border-radius:50%;
+
+background:rgba(255,255,255,.75);
+
+box-shadow:
+
+-24px 18px 0 rgba(255,255,255,.45),
+
+18px 32px 0 rgba(255,255,255,.25),
+
+-10px 48px 0 rgba(255,255,255,.18);
 
 }
 
 </style>
-
-
-
 
 
 <h2 class="expense-title">
