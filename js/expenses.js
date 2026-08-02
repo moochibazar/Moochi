@@ -20,14 +20,11 @@ async function loadExpenses(){
         const wages =
         await Sheet.getWages();
 
-        // همه تاریخ‌ها
         const dates = new Set();
 
-        // اطلاعات هر تاریخ
         const data = {};
 
-        // ---------- هزینه‌ها ----------
-
+        // هزینه‌ها
         expenses.data
         .slice(1)
         .forEach(expense=>{
@@ -41,7 +38,7 @@ async function loadExpenses(){
 
             if(!data[date]){
 
-                data[date] = {
+                data[date]={
                     expense:"",
                     wageOne:"",
                     wageTwo:""
@@ -54,8 +51,7 @@ async function loadExpenses(){
 
         });
 
-        // ---------- دستمزدها ----------
-
+        // دستمزدها
         wages.data
         .slice(1)
         .forEach(wage=>{
@@ -69,7 +65,7 @@ async function loadExpenses(){
 
             if(!data[date]){
 
-                data[date] = {
+                data[date]={
                     expense:"",
                     wageOne:"",
                     wageTwo:""
@@ -77,14 +73,14 @@ async function loadExpenses(){
 
             }
 
-            if(wage[1] == "دستمزد یک"){
+            if(wage[1]=="دستمزد یک"){
 
                 data[date].wageOne =
                 Number(wage[2]).toLocaleString();
 
             }
 
-            if(wage[1] == "دستمزد دو"){
+            if(wage[1]=="دستمزد دو"){
 
                 data[date].wageTwo =
                 Number(wage[2]).toLocaleString();
@@ -93,164 +89,129 @@ async function loadExpenses(){
 
         });
 
-        // مرتب سازی تاریخ
-        const sortedDates =
-        [...dates].sort();
+        const colors=[
+            "#FFE5EC",
+            "#E8F7FF",
+            "#FFF7D6",
+            "#E9FFE8",
+            "#F3E8FF"
+        ];
 
-        let html = `
+        let html=`
 
-<style>
-
-.expense-card{
-
-background:#fff;
-
-border-radius:18px;
-
-padding:20px;
-
-box-shadow:0 6px 18px rgba(0,0,0,.08);
-
-overflow:auto;
-
-margin-top:15px;
-
-}
-
-.expense-table{
-
-width:100%;
-
-border-collapse:collapse;
-
-min-width:650px;
-
-}
-
-.expense-table th{
-
-background:#7b5cff;
-
-color:#fff;
-
-padding:14px;
-
-position:sticky;
-
-top:0;
-
-font-size:15px;
-
-}
-
-.expense-table td{
-
-padding:12px;
-
-border-bottom:1px solid #ececec;
-
+<h2 style="
 text-align:center;
-
-font-size:14px;
-
-}
-
-.expense-table tr:nth-child(even){
-
-background:#fafafa;
-
-}
-
-.expense-table tr:hover{
-
-background:#f2efff;
-
-}
-
-.back-btn{
-
-margin-top:20px;
-
-width:100%;
-
-padding:14px;
-
-border:none;
-
-border-radius:14px;
-
-background:#7b5cff;
-
-color:#fff;
-
-font-size:16px;
-
-cursor:pointer;
-
-}
-
-.back-btn:hover{
-
-opacity:.9;
-
-}
-
-</style>
-
-<div class="expense-card">
-
-<table class="expense-table">
-
-<thead>
-
-<tr>
-
-<th>📅 تاریخ</th>
-
-<th>💸 هزینه</th>
-
-<th>💵 دستمزد یک</th>
-
-<th>💰 دستمزد دو</th>
-
-</tr>
-
-</thead>
-
-<tbody>
+color:#7b5cff;
+margin-bottom:20px;">
+📋 گردش هزینه‌ها
+</h2>
 
 `;
 
-        sortedDates.forEach(date=>{
+        [...dates]
+        .sort()
+        .forEach((date,index)=>{
 
-            html += `
+            const c =
+            colors[index%colors.length];
 
-<tr>
+            html+=`
 
-<td>${date}</td>
+<div style="
+background:${c};
+border-radius:22px;
+padding:18px;
+margin-bottom:18px;
+box-shadow:0 6px 16px rgba(0,0,0,.08);
+border:2px solid rgba(255,255,255,.7);
+">
 
-<td>${data[date].expense || "-"}</td>
+<div style="
+text-align:center;
+font-size:20px;
+font-weight:bold;
+margin-bottom:15px;
+color:#6b4cff;">
 
-<td>${data[date].wageOne || "-"}</td>
+📅 ${date}
 
-<td>${data[date].wageTwo || "-"}</td>
+</div>
 
-</tr>
+<div style="
+background:white;
+border-radius:14px;
+padding:12px;
+margin-bottom:10px;">
+
+💸 <b>هزینه</b>
+
+<div style="
+font-size:22px;
+margin-top:6px;
+color:#ff4f81;">
+
+${data[date].expense || "—"}
+
+</div>
+
+</div>
+
+<div style="
+background:white;
+border-radius:14px;
+padding:12px;
+margin-bottom:10px;">
+
+💜 <b>دستمزد یک</b>
+
+<div style="
+font-size:22px;
+margin-top:6px;
+color:#7b5cff;">
+
+${data[date].wageOne || "—"}
+
+</div>
+
+</div>
+
+<div style="
+background:white;
+border-radius:14px;
+padding:12px;">
+
+💙 <b>دستمزد دو</b>
+
+<div style="
+font-size:22px;
+margin-top:6px;
+color:#2196F3;">
+
+${data[date].wageTwo || "—"}
+
+</div>
+
+</div>
+
+</div>
 
 `;
 
         });
 
-        html += `
+        html+=`
 
-</tbody>
-
-</table>
-
-</div>
-
-<button class="back-btn"
-onclick="location.href='admin.html'">
+<button
+onclick="location.href='admin.html'"
+style="
+width:100%;
+padding:15px;
+border:none;
+border-radius:18px;
+background:#7b5cff;
+color:white;
+font-size:18px;
+margin-top:10px;">
 
 ⬅️ بازگشت
 
@@ -258,13 +219,11 @@ onclick="location.href='admin.html'">
 
 `;
 
-        box.innerHTML = html;
+        box.innerHTML=html;
 
-    }catch(error){
+    }catch(e){
 
-        console.error(error);
-
-        box.innerHTML = `
+        box.innerHTML=`
         <div class="card">
         خطا در دریافت اطلاعات
         </div>
