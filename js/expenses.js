@@ -1033,7 +1033,6 @@ box-shadow:
 }
 
 .bubbles{
-.bubbles{
 
 position:fixed;
 
