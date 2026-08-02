@@ -1033,6 +1033,7 @@ box-shadow:
 }
 
 .bubbles{
+.bubbles{
 
 position:fixed;
 
@@ -1046,7 +1047,7 @@ pointer-events:none;
 
 overflow:hidden;
 
-z-index:-1;
+z-index:10;
 
 }
 
