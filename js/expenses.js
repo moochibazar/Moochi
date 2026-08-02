@@ -29,7 +29,7 @@ async function loadExpenses(){
 
         <tr>
 
-            <td>${expense[1]}</td>
+            <td>${String(expense[1]).split("T")[0].replace(/-/g,"/")}</td>
 
             <td>${Number(expense[2]).toLocaleString()}</td>
 
