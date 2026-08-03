@@ -1491,7 +1491,9 @@ document.getElementById("menuPayments")
 .onclick =
 showPaymentsPage;
   
+document.getElementById("menuAdmin").onclick = showAdminMenu;
 
+    
 });
 
 window.logout = function(){
