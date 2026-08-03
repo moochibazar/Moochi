@@ -1,17 +1,21 @@
-document.addEventListener("DOMContentLoaded", () => {
+const pageContent =
+document.getElementById("pageContent");
 
-    const pageContent = document.getElementById("pageContent");
 
-    pageContent.innerHTML = `
-        <h2>⚙️ پنل ادمین</h2>
+function showLoading(){
 
-        <div class="card" onclick="location.href='admin.html?page=orders'">
-            <h3>🍡 ثبت سفارش</h3>
-        </div>
+pageContent.innerHTML = `
 
-        <div class="card" onclick="location.href='admin.html?page=payments'">
-            <h3>💰 پرداخت جدید</h3>
-        </div>
-    `;
+<div class="loading">
 
-});
+<div class="spinner"></div>
+
+<p>
+در حال دریافت اطلاعات...
+</p>
+
+</div>
+
+`;
+
+}
